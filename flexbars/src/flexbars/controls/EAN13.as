@@ -1,8 +1,5 @@
-package flexbar.controls
+package flexbars.controls
 {
-
-import flash.display.MovieClip;
-import flash.display.Shape;
 
 //--------------------------------------
 //  Events
@@ -32,6 +29,15 @@ public class EAN13 extends EAN
 	public function EAN13()
 	{
 		super();
+		
+		codeLength = 13;
+		guardIndices = [0, 2, 28, 30, 56, 58];
+		numberGroups =
+		[
+			[0, 1, 2],
+			[1, 6, 15],
+			[7, 6, 62]
+		];
 	}
 	
 	//--------------------------------------------------------------------------
@@ -39,8 +45,6 @@ public class EAN13 extends EAN
 	//  Constants
 	//
 	//--------------------------------------------------------------------------
-	
-	private const guardPositions:Array = [0, 2, 46, 48, 92, 94];
 	
 	protected const leftHalfEncoding:Array = 
 	[
@@ -74,52 +78,11 @@ public class EAN13 extends EAN
 	//
 	//--------------------------------------------------------------------------
 	
-    //----------------------------------
-    //  code
-    //----------------------------------
-    
-    override public function set code(value:String):void
-    {
-    	super.code = value;
-    	
-    	encode();
-    	drawBars();
-    }
-	
 	//--------------------------------------------------------------------------
 	//
 	//  Overridden methods
 	//
 	//--------------------------------------------------------------------------
-	
-    //----------------------------------
-    //  computeCheckDigit
-    //----------------------------------
-	
-	override protected function computeCheckDigit(code:String):String
-	{
-		if (code.length != 12 && code.length != 13)
-			throw new ArgumentError("EAN13 computeCheckDigit code length");
-		
-		var sums:Array = [0, 0];
-		
-		for (var i:int = 0; i < 12; i++)
-		{
-			sums[i & 1] += parseInt( code.charAt(i) );
-		}
-		
-		var sum:int = sums[0] + sums[1] * 3;
-		var checkDigit:int = (10 - sum % 10) % 10;
-		
-		if (code.length == 12)
-			return code + checkDigit;
-		
-		// code.length == 13
-		if (parseInt( code.charAt(12) ) != checkDigit)
-			throw new ArgumentError("EAN13 computeCheckDigit check digit");
-		
-		return code;
-	}
 	
     //----------------------------------
     //  encode
@@ -143,7 +106,7 @@ public class EAN13 extends EAN
 		
 		while (charIndex < 13)
 		{
-			encodeDigit(parseInt( code.charAt(charIndex++) ), "C");
+			encodeDigit(parseInt( code.charAt(charIndex++) ), "A");
 		}
 		
 		encodeNormalGuard();
@@ -154,32 +117,6 @@ public class EAN13 extends EAN
 	//  Methods
 	//
 	//--------------------------------------------------------------------------
-	
-	protected function drawBars():void
-	{
-		var barsShape:Shape = new Shape();
-		
-		barsShape.graphics.beginFill(0x000000);
-		
-		var x:int = 0;
-		var n:int = bars.length;
-		for (var i:int = 0; i < n; i++)
-		{
-			if ( (i & 1) == 0 )
-			{
-				barsShape.graphics.drawRect(x, 0, bars[i], 64);
-				
-				if(guardPositions.indexOf(x) != -1)
-					barsShape.graphics.drawRect(x, 64, bars[i], 5);
-			}
-			
-			x += bars[i];
-		}
-		
-		barsShape.graphics.endFill();
-		
-		addChild(barsShape);
-	}
 	
 	//--------------------------------------------------------------------------
 	//

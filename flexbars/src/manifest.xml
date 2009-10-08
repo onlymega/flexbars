@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <componentPackage>
 	
-	<component id="EAN13" class="flexbar.controls.EAN13" />
-	<component id="EAN8" class="flexbar.controls.EAN8" />
+	<component id="EAN13" class="flexbars.controls.EAN13" />
+	<component id="EAN8" class="flexbars.controls.EAN8" />
+	<component id="UPC-A" class="flexbars.controls.UPCA" />
 	
 </componentPackage>

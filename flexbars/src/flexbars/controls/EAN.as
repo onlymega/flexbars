@@ -1,9 +1,9 @@
-package flexbar.controls
+package flexbars.controls
 {
 
+import flash.display.Shape;
 import flash.errors.IllegalOperationError;
-
-import mx.core.UIComponent;
+import flash.text.TextField;
 
 //--------------------------------------
 //  Events
@@ -21,7 +21,7 @@ import mx.core.UIComponent;
 //  Other metadata
 //--------------------------------------
 
-internal class EAN extends UIComponent
+internal class EAN extends LinearBarcode
 {
 	
 	//--------------------------------------------------------------------------
@@ -62,6 +62,9 @@ internal class EAN extends UIComponent
 	//--------------------------------------------------------------------------
 	
 	protected var bars:Array /* of int */;
+	protected var codeLength:int;
+	protected var guardIndices:Array /* of int */ = null;
+	protected var numberGroups:Array = null;
 	
 	//--------------------------------------------------------------------------
 	//
@@ -89,6 +92,10 @@ internal class EAN extends UIComponent
     public function set code(value:String):void
     {
     	_code = computeCheckDigit(value);
+    	
+    	encode();
+    	addChild( drawBars() );
+    	drawNumbers();
     }
 	
 	//--------------------------------------------------------------------------
@@ -109,7 +116,75 @@ internal class EAN extends UIComponent
 	
 	protected function computeCheckDigit(code:String):String
 	{
-		throw new IllegalOperationError("EAN computeCheckDigit");
+		var codeLengthWithoutKey:int = codeLength - 1;
+		
+		if (code.length != codeLengthWithoutKey && code.length != codeLength)
+			throw new ArgumentError("EAN computeCheckDigit code length");
+		
+		var sums:Array = [0, 0];
+		
+		for (var i:int = 0; i < codeLengthWithoutKey; i++)
+		{
+			sums[i & 1] += parseInt( code.charAt(i) );
+		}
+		
+		var sum:int = codeLength & 1 ? sums[0] + sums[1]*3 : sums[0]*3 + sums[1];
+		
+		var checkDigit:int = (10 - sum % 10) % 10;
+		
+		if (code.length == codeLengthWithoutKey)
+			return code + checkDigit;
+		
+		if (parseInt( code.charAt(codeLength - 1) ) != checkDigit)
+			throw new ArgumentError("EAN computeCheckDigit check digit");
+		
+		return code;
+	}
+	
+    //----------------------------------
+    //  drawBars
+    //----------------------------------
+	
+	protected function drawBars():Shape
+	{
+		var barsShape:Shape = new Shape();
+		
+		barsShape.graphics.beginFill(0x000000);
+		
+		var x:int = 11;
+		var n:int = bars.length;
+		for (var i:int = 0; i < n; i++)
+		{
+			if ( (i & 1) == 0 )
+			{
+				var height:int = (guardIndices.indexOf(i) == -1) ? 64 : 69;
+				barsShape.graphics.drawRect(x, 0, bars[i], height);
+			}
+			
+			x += bars[i];
+		}
+		
+		barsShape.graphics.endFill();
+		
+		return barsShape;
+	}
+	
+    //----------------------------------
+    //  drawNumbers
+    //----------------------------------
+	
+	protected function drawNumbers():void
+	{
+		for each (var group:Array in numberGroups)
+		{
+			var textField:TextField = new TextField();
+			
+			textField.text = code.substr(group[0], group[1]);
+			textField.x = group[2];
+			textField.y = 60;
+			
+			addChild(textField);
+		}
 	}
 	
     //----------------------------------
@@ -142,11 +217,10 @@ internal class EAN extends UIComponent
 		switch(type)
 		{
 			case "A":
-			case "C":
 			{
-				for each (var b:int in digitToBarEncoding[digit])
+				for each (var bar:int in digitToBarEncoding[digit])
 				{
-					bars.push(b);
+					bars.push(bar);
 				}
 				break;
 			}
@@ -154,7 +228,7 @@ internal class EAN extends UIComponent
 			{
 				for (var i:int = 3; i >= 0; i--)
 				{
-					bars.push( digitToBarEncoding[digit][i] );
+					bars.push(digitToBarEncoding[digit][i]);
 				}
 				break;
 			}
