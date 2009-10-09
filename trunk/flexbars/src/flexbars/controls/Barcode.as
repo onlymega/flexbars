@@ -19,7 +19,7 @@ import mx.core.UIComponent;
 //  Other metadata
 //--------------------------------------
 
-public class Barcode extends UIComponent
+internal class Barcode extends UIComponent
 {
 	
 	//--------------------------------------------------------------------------

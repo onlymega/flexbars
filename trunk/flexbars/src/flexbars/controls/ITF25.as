@@ -1,7 +1,6 @@
 package flexbars.controls
 {
 
-import flash.display.Shape;
 import flash.errors.IllegalOperationError;
 
 //--------------------------------------
@@ -20,7 +19,7 @@ import flash.errors.IllegalOperationError;
 //  Other metadata
 //--------------------------------------
 
-internal class LinearBarcode extends Barcode
+public class ITF25 extends Code25
 {
 	
 	//--------------------------------------------------------------------------
@@ -29,7 +28,7 @@ internal class LinearBarcode extends Barcode
 	//
 	//--------------------------------------------------------------------------
 	
-	public function LinearBarcode()
+	public function ITF25()
 	{
 		super();
 	}
@@ -46,13 +45,23 @@ internal class LinearBarcode extends Barcode
 	//
 	//--------------------------------------------------------------------------
 	
-	protected var bars:Array /* of int */;
-	
 	//--------------------------------------------------------------------------
 	//
 	//  Overridden properties
 	//
 	//--------------------------------------------------------------------------
+	
+    //----------------------------------
+    //  code
+    //----------------------------------
+	
+	override public function set code(value:String):void
+	{
+		if ( (value.length & 1) != 0 )
+			throw new ArgumentError("");
+		
+		super.code = value;
+	}
 	
 	//--------------------------------------------------------------------------
 	//
@@ -60,31 +69,41 @@ internal class LinearBarcode extends Barcode
 	//
 	//--------------------------------------------------------------------------
 	
-    //----------------------------------
-    //  code
-    //----------------------------------
-    
-    private var _code:String;
-    
-    public function get code():String
-    {
-    	return _code;
-    }
-    
-    public function set code(value:String):void
-    {
-    	_code = value;
-    	
-    	encode();
-    	drawBars();
-    	drawLabel();
-    }
-	
 	//--------------------------------------------------------------------------
 	//
 	//  Overridden methods
 	//
 	//--------------------------------------------------------------------------
+	
+    //----------------------------------
+    //  drawLabel
+    //----------------------------------
+	
+	override protected function drawLabel():void
+	{
+		
+	}
+	
+    //----------------------------------
+    //  encode
+    //----------------------------------
+	
+	override protected function encode():void
+	{
+		bars = [];
+		
+		// start sequence
+		bars.push(1, 1, 1, 1);
+		
+		var n:int = code.length;
+		for (var i:int = 0; i < n; i += 2)
+		{
+			encodeDigits( parseInt( code.substr(i, 2) ) );
+		}
+		
+		// end sequence
+		bars.push(2, 1, 1);
+	}
 	
 	//--------------------------------------------------------------------------
 	//
@@ -93,47 +112,35 @@ internal class LinearBarcode extends Barcode
 	//--------------------------------------------------------------------------
 	
     //----------------------------------
-    //  drawBars
+    //  encodeDigits
     //----------------------------------
 	
-	protected function drawBars():void
+	private function encodeDigits(digits:int):void
 	{
-		var barsShape:Shape = new Shape();
+		if (digits < 00 || digits > 99)
+			throw new ArgumentError("ITF25 encodeDigits digits");
 		
-		barsShape.graphics.beginFill(0x000000);
+		var a:int = digits / 10;
+		var b:int = digits % 10;
 		
-		var x:int = 11;
-		var n:int = bars.length;
-		for (var i:int = 0; i < n; i++)
+		for (var i:int = 0; i < 5; i++)
 		{
-			if ( (i & 1) == 0 )
-				barsShape.graphics.drawRect(x, 0, bars[i], 40);
-			
-			x += bars[i];
+			bars.push(digitToBarEncoding[a][i], digitToBarEncoding[b][i]);
 		}
-		
-		barsShape.graphics.endFill();
-		
-		addChild(barsShape);
 	}
 	
-    //----------------------------------
-    //  drawLabel
-    //----------------------------------
+	//--------------------------------------------------------------------------
+	//
+	//  Overridden event handlers
+	//
+	//--------------------------------------------------------------------------
 	
-	protected function drawLabel():void
-	{
-		throw new IllegalOperationError("LinearBarcode drawLabel");
-	}
+	//--------------------------------------------------------------------------
+	//
+	//  Event handlers
+	//
+	//--------------------------------------------------------------------------
 	
-    //----------------------------------
-    //  encode
-    //----------------------------------
-	
-	protected function encode():void
-	{
-		throw new IllegalOperationError("LinearBarcode encode");
-	}
 }
 
 }

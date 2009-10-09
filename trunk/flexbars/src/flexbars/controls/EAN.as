@@ -61,7 +61,6 @@ internal class EAN extends LinearBarcode
 	//
 	//--------------------------------------------------------------------------
 	
-	protected var bars:Array /* of int */;
 	protected var codeLength:int;
 	protected var guardIndices:Array /* of int */ = null;
 	protected var numberGroups:Array = null;
@@ -72,37 +71,72 @@ internal class EAN extends LinearBarcode
 	//
 	//--------------------------------------------------------------------------
 	
+    //----------------------------------
+    //  code
+    //----------------------------------
+    
+    override public function set code(value:String):void
+    {
+    	super.code = computeCheckDigit(value);
+    }
+	
 	//--------------------------------------------------------------------------
 	//
 	//  Properties
 	//
 	//--------------------------------------------------------------------------
 	
-    //----------------------------------
-    //  code
-    //----------------------------------
-    
-    private var _code:String;
-    
-    public function get code():String
-    {
-    	return _code;
-    }
-    
-    public function set code(value:String):void
-    {
-    	_code = computeCheckDigit(value);
-    	
-    	encode();
-    	addChild( drawBars() );
-    	drawNumbers();
-    }
-	
 	//--------------------------------------------------------------------------
 	//
 	//  Overridden methods
 	//
 	//--------------------------------------------------------------------------
+	
+    //----------------------------------
+    //  drawBars
+    //----------------------------------
+	
+	override protected function drawBars():void
+	{
+		var barsShape:Shape = new Shape();
+		
+		barsShape.graphics.beginFill(0x000000);
+		
+		var x:int = 11;
+		var n:int = bars.length;
+		for (var i:int = 0; i < n; i++)
+		{
+			if ( (i & 1) == 0 )
+			{
+				var height:int = (guardIndices.indexOf(i) == -1) ? 64 : 69;
+				barsShape.graphics.drawRect(x, 0, bars[i], height);
+			}
+			
+			x += bars[i];
+		}
+		
+		barsShape.graphics.endFill();
+		
+		addChild(barsShape);
+	}
+	
+    //----------------------------------
+    //  drawLabel
+    //----------------------------------
+	
+	override protected function drawLabel():void
+	{
+		for each (var group:Array in numberGroups)
+		{
+			var textField:TextField = new TextField();
+			
+			textField.text = code.substr(group[0], group[1]);
+			textField.x = group[2];
+			textField.y = 60;
+			
+			addChild(textField);
+		}
+	}
 	
 	//--------------------------------------------------------------------------
 	//
@@ -142,67 +176,12 @@ internal class EAN extends LinearBarcode
 	}
 	
     //----------------------------------
-    //  drawBars
+    //  encodeCentralGuard
     //----------------------------------
 	
-	protected function drawBars():Shape
+	protected function encodeCentralGuard():void
 	{
-		var barsShape:Shape = new Shape();
-		
-		barsShape.graphics.beginFill(0x000000);
-		
-		var x:int = 11;
-		var n:int = bars.length;
-		for (var i:int = 0; i < n; i++)
-		{
-			if ( (i & 1) == 0 )
-			{
-				var height:int = (guardIndices.indexOf(i) == -1) ? 64 : 69;
-				barsShape.graphics.drawRect(x, 0, bars[i], height);
-			}
-			
-			x += bars[i];
-		}
-		
-		barsShape.graphics.endFill();
-		
-		return barsShape;
-	}
-	
-    //----------------------------------
-    //  drawNumbers
-    //----------------------------------
-	
-	protected function drawNumbers():void
-	{
-		for each (var group:Array in numberGroups)
-		{
-			var textField:TextField = new TextField();
-			
-			textField.text = code.substr(group[0], group[1]);
-			textField.x = group[2];
-			textField.y = 60;
-			
-			addChild(textField);
-		}
-	}
-	
-    //----------------------------------
-    //  encode
-    //----------------------------------
-	
-	protected function encode():void
-	{
-		throw new IllegalOperationError("EAN encode");
-	}
-	
-    //----------------------------------
-    //  encodeNormalGuard
-    //----------------------------------
-	
-	protected function encodeNormalGuard():void
-	{
-		bars.push(1, 1, 1);
+		bars.push(1, 1, 1, 1, 1);
 	}
 	
     //----------------------------------
@@ -240,12 +219,12 @@ internal class EAN extends LinearBarcode
 	}
 	
     //----------------------------------
-    //  encodeCentralGuard
+    //  encodeNormalGuard
     //----------------------------------
 	
-	protected function encodeCentralGuard():void
+	protected function encodeNormalGuard():void
 	{
-		bars.push(1, 1, 1, 1, 1);
+		bars.push(1, 1, 1);
 	}
 	
 	//--------------------------------------------------------------------------
