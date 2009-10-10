@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Form
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:fb="http://code.google.com/p/flexbars"
+	width="580" height="380" label="EAN8"
+	backgroundColor="white"
+	defaultButton="{submitButton}"
+>
+	<mx:Script>
+		<![CDATA[
+			import mx.validators.Validator;
+			
+			private function submitForm():void
+			{
+				if (Validator.validateAll([ean8Validator]).length == 0)
+				{
+					// components don't support code change yet
+					barcodeItem.removeChild(barcode);
+					barcode = new EAN8();
+					barcode.code = code.text;
+					barcodeItem.addChild(barcode);
+				}
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:RegExpValidator
+		id="ean8Validator" source="{code}"
+		property="text" expression="[0-9]\{7\}"
+	/>
+	
+	<mx:FormHeading label="European Article Numbering 8"/>
+	
+	<mx:FormItem label="Code (7 digits)">
+		<mx:TextInput id="code" maxChars="7"/>
+	</mx:FormItem>
+	
+	<mx:FormItem label="Description">
+		<mx:Text text="An EAN-8 is a barcode and is derived from the longer European Article Number (EAN-13) code. It was introduced for use on small packages where an EAN-13 barcode would be too large; for example on cigarettes, pencils (though it's not commonly used for pencils) and chewing gum packets." width="430"/>
+	</mx:FormItem>
+	
+	<mx:FormItem>
+		<mx:Button id="submitButton" label="Generate" click="submitForm()"/>
+	</mx:FormItem>
+	
+	<mx:FormItem id="barcodeItem">
+		<fb:EAN8
+			id="barcode" x="20" y="20" 
+			width="100" height="100" code="0000000"
+		/>
+	</mx:FormItem>
+</mx:Form>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Form
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:fb="http://code.google.com/p/flexbars"
+	width="580" height="380" label="EAN13"
+	backgroundColor="white"
+	defaultButton="{submitButton}"
+>
+	<mx:Script>
+		<![CDATA[
+			import mx.validators.Validator;
+			
+			private function submitForm():void
+			{
+				if (Validator.validateAll([ean13Validator]).length == 0)
+				{
+					// components don't support code change yet
+					barcodeItem.removeChild(barcode);
+					barcode = new EAN13();
+					barcode.code = code.text;
+					barcodeItem.addChild(barcode);
+				}
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:RegExpValidator
+		id="ean13Validator" source="{code}"
+		property="text" expression="[0-9]\{12\}"
+	/>
+	
+	<mx:FormHeading label="European Article Numbering 13"/>
+	
+	<mx:FormItem label="Code (12 digits)">
+		<mx:TextInput id="code" maxChars="12"/>
+	</mx:FormItem>
+	
+	<mx:FormItem label="Description">
+		<mx:Text text="The EAN-13 barcodes are used worldwide for marking products often sold at retail point of sale. The less commonly used EAN-8 barcodes are used also for marking retail goods; however, they are usually reserved for smaller items, for example confectionery." width="430"/>
+	</mx:FormItem>
+	
+	<mx:FormItem>
+		<mx:Button id="submitButton" label="Generate" click="submitForm()"/>
+	</mx:FormItem>
+	
+	<mx:FormItem id="barcodeItem">
+		<fb:EAN13
+			id="barcode" x="20" y="20" 
+			width="100" height="100" code="000000000000"
+		/>
+	</mx:FormItem>
+</mx:Form>
