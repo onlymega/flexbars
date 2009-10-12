@@ -2,19 +2,20 @@
 <mx:Application
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="views.*"
-	layout="absolute"
+	width="640" height="480" layout="absolute"
 >
+	<mx:Label
+		x="30" y="10" text="Barcode Demonstration"
+		width="580" height="42" fontFamily="Arial" fontSize="40"
+	/>
+	
 	<mx:TabBar x="30" y="60" maxWidth="580" dataProvider="viewstack"/>
 	
 	<mx:ViewStack x="30" y="79" id="viewstack" width="580" height="380">
 		<views:EAN13View/>
 		<views:EAN8View/>
-		
-		<mx:Canvas label="UPC-A" width="100%" height="100%">
-		</mx:Canvas>
-		<mx:Canvas label="Code25" width="100%" height="100%">
-		</mx:Canvas>
-		<mx:Canvas label="ITF25" width="100%" height="100%">
-		</mx:Canvas>
+		<views:UPCAView/>
+		<views:Code25View/>
+		<views:ITF25View/>
 	</mx:ViewStack>
 </mx:Application>

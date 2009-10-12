@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Form
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:fb="http://code.google.com/p/flexbars"
+	width="580" height="380" label="ITF25"
+	backgroundColor="white"
+	defaultButton="{submitButton}"
+>
+	<mx:Script>
+		<![CDATA[
+			import flexbars.controls.ITF25;
+			import mx.validators.Validator;
+			
+			private function submitForm():void
+			{
+				if (Validator.validateAll([validator]).length == 0)
+					barcode.code = code.text;
+			}
+		]]>
+	</mx:Script>
+	
+	<fb:ITF25Validator id="validator" source="{code}" property="text"/>
+	
+	<mx:FormHeading label="Interleaved 2 of 5"/>
+	
+	<mx:FormItem label="Code">
+		<mx:TextInput id="code" maxChars="40" width="300"/>
+	</mx:FormItem>
+	
+	<mx:FormItem label="Description">
+		<mx:Text text="Interleaved 2 of 5 is based on Standard 2 of 5 symbology, but uses both bar and space width to encode information so the density of ITF25 is much higher. It is primarily used in the warehouse industry. Interleaved 2 of 5 encodes any even number of numeric characters in the width of both bars and spaces. It is called “Interleaved” because 2 characters are encoded in a unit of 5 bars and spaces. The even position character is encoded into bars whilst the odd position character is encoded into spaces. Thus, Interleaved 2 of 5 symbology can only encode data elements with even number length." width="430"/>
+	</mx:FormItem>
+	
+	<mx:FormItem>
+		<mx:Button id="submitButton" label="Generate" click="submitForm()"/>
+	</mx:FormItem>
+	
+	<mx:FormItem id="barcodeItem">
+		<fb:ITF25 id="barcode" x="20" y="20" />
+	</mx:FormItem>
+</mx:Form>

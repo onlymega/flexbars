@@ -12,27 +12,18 @@
 			
 			private function submitForm():void
 			{
-				if (Validator.validateAll([ean13Validator]).length == 0)
-				{
-					// components don't support code change yet
-					barcodeItem.removeChild(barcode);
-					barcode = new EAN13();
+				if (Validator.validateAll([validator]).length == 0)
 					barcode.code = code.text;
-					barcodeItem.addChild(barcode);
-				}
 			}
 		]]>
 	</mx:Script>
 	
-	<mx:RegExpValidator
-		id="ean13Validator" source="{code}"
-		property="text" expression="[0-9]\{12\}"
-	/>
+	<fb:EAN13Validator id="validator" source="{code}" property="text"/>
 	
 	<mx:FormHeading label="European Article Numbering 13"/>
 	
-	<mx:FormItem label="Code (12 digits)">
-		<mx:TextInput id="code" maxChars="12"/>
+	<mx:FormItem label="Code">
+		<mx:TextInput id="code" maxChars="13"/>
 	</mx:FormItem>
 	
 	<mx:FormItem label="Description">
@@ -44,9 +35,6 @@
 	</mx:FormItem>
 	
 	<mx:FormItem id="barcodeItem">
-		<fb:EAN13
-			id="barcode" x="20" y="20" 
-			width="100" height="100" code="000000000000"
-		/>
+		<fb:EAN13 id="barcode" x="20" y="20" />
 	</mx:FormItem>
 </mx:Form>

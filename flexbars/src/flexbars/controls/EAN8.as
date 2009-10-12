@@ -81,16 +81,12 @@ public class EAN8 extends EAN
 		
 		var charIndex:int = 0;
 		
-		while (charIndex < 4)
-		{
-			encodeDigit(parseInt( code.charAt(charIndex++) ), "A");
-		}
-		
-		encodeCentralGuard();
-		
 		while (charIndex < 8)
 		{
-			encodeDigit(parseInt( code.charAt(charIndex++) ), "A");
+			encodeDigit( parseInt( code.charAt(charIndex++) ) );
+			
+			if (charIndex == 4)
+				encodeCentralGuard();
 		}
 		
 		encodeNormalGuard();
