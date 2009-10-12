@@ -1,9 +1,10 @@
 package flexbars.controls
 {
 
-import flash.display.Shape;
-import flash.errors.IllegalOperationError;
+import flash.display.Sprite;
 import flash.text.TextField;
+
+import flexbars.utils.BarcodeUtil;
 
 //--------------------------------------
 //  Events
@@ -21,7 +22,7 @@ import flash.text.TextField;
 //  Other metadata
 //--------------------------------------
 
-internal class EAN extends LinearBarcode
+public class EAN extends LinearBarcode
 {
 	
 	//--------------------------------------------------------------------------
@@ -77,7 +78,7 @@ internal class EAN extends LinearBarcode
     
     override public function set code(value:String):void
     {
-    	super.code = computeCheckDigit(value);
+    	super.code = BarcodeUtil.computeMod10Digit(value, codeLength);
     }
 	
 	//--------------------------------------------------------------------------
@@ -98,9 +99,12 @@ internal class EAN extends LinearBarcode
 	
 	override protected function drawBars():void
 	{
-		var barsShape:Shape = new Shape();
+		if (barsSprite)
+			removeChild(barsSprite);
 		
-		barsShape.graphics.beginFill(0x000000);
+		barsSprite = new Sprite();
+		
+		barsSprite.graphics.beginFill(0x000000);
 		
 		var x:int = 11;
 		var n:int = bars.length;
@@ -109,15 +113,15 @@ internal class EAN extends LinearBarcode
 			if ( (i & 1) == 0 )
 			{
 				var height:int = (guardIndices.indexOf(i) == -1) ? 64 : 69;
-				barsShape.graphics.drawRect(x, 0, bars[i], height);
+				barsSprite.graphics.drawRect(x, 0, bars[i], height);
 			}
 			
 			x += bars[i];
 		}
 		
-		barsShape.graphics.endFill();
+		barsSprite.graphics.endFill();
 		
-		addChild(barsShape);
+		addChild(barsSprite);
 	}
 	
     //----------------------------------
@@ -134,7 +138,7 @@ internal class EAN extends LinearBarcode
 			textField.x = group[2];
 			textField.y = 60;
 			
-			addChild(textField);
+			barsSprite.addChild(textField);
 		}
 	}
 	
@@ -143,37 +147,6 @@ internal class EAN extends LinearBarcode
 	//  Methods
 	//
 	//--------------------------------------------------------------------------
-	
-    //----------------------------------
-    //  computeCheckDigit
-    //----------------------------------
-	
-	protected function computeCheckDigit(code:String):String
-	{
-		var codeLengthWithoutKey:int = codeLength - 1;
-		
-		if (code.length != codeLengthWithoutKey && code.length != codeLength)
-			throw new ArgumentError("EAN computeCheckDigit code length");
-		
-		var sums:Array = [0, 0];
-		
-		for (var i:int = 0; i < codeLengthWithoutKey; i++)
-		{
-			sums[i & 1] += parseInt( code.charAt(i) );
-		}
-		
-		var sum:int = codeLength & 1 ? sums[0] + sums[1]*3 : sums[0]*3 + sums[1];
-		
-		var checkDigit:int = (10 - sum % 10) % 10;
-		
-		if (code.length == codeLengthWithoutKey)
-			return code + checkDigit;
-		
-		if (parseInt( code.charAt(codeLength - 1) ) != checkDigit)
-			throw new ArgumentError("EAN computeCheckDigit check digit");
-		
-		return code;
-	}
 	
     //----------------------------------
     //  encodeCentralGuard
@@ -188,33 +161,19 @@ internal class EAN extends LinearBarcode
     //  encodeDigit
     //----------------------------------
 	
-	protected final function encodeDigit(digit:int, type:String):void
+	protected final function encodeDigit(digit:int, reverse:Boolean = false):void
 	{
 		if (digit < 0 || digit > 9)
 			throw new ArgumentError("EAN encodeDigit digit");
 		
-		switch(type)
+		var encoding:Array = digitToBarEncoding[digit];
+		
+		if (reverse)
+			encoding = encoding.concat().reverse();
+		
+		for each (var bar:int in encoding)
 		{
-			case "A":
-			{
-				for each (var bar:int in digitToBarEncoding[digit])
-				{
-					bars.push(bar);
-				}
-				break;
-			}
-			case "B":
-			{
-				for (var i:int = 3; i >= 0; i--)
-				{
-					bars.push(digitToBarEncoding[digit][i]);
-				}
-				break;
-			}
-			default:
-			{
-				throw new ArgumentError("EAN encodeDigit type");
-			}
+			bars.push(bar);
 		}
 	}
 	

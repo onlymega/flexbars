@@ -7,4 +7,10 @@
 	<component id="ITF25" class="flexbars.controls.ITF25" />
 	<component id="UPC-A" class="flexbars.controls.UPCA" />
 	
+	<component id="Code25Validator" class="flexbars.validators.Code25Validator" />
+	<component id="EAN13Validator" class="flexbars.validators.EAN13Validator" />
+	<component id="EAN8Validator" class="flexbars.validators.EAN8Validator" />
+	<component id="ITF25Validator" class="flexbars.validators.ITF25Validator" />
+	<component id="UPC-AValidator" class="flexbars.validators.UPCAValidator" />
+	
 </componentPackage>

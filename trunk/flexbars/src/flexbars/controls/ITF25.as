@@ -57,7 +57,7 @@ public class ITF25 extends Code25
 	
 	override public function set code(value:String):void
 	{
-		if ( (value.length & 1) != 0 )
+		if ( (value.length % 2) != 0 )
 			throw new ArgumentError("");
 		
 		super.code = value;

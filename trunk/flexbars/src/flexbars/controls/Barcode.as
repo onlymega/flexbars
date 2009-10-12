@@ -1,6 +1,8 @@
 package flexbars.controls
 {
 
+import flash.display.Sprite;
+
 import mx.core.UIComponent;
 
 //--------------------------------------
@@ -44,6 +46,8 @@ internal class Barcode extends UIComponent
 	//  Variables
 	//
 	//--------------------------------------------------------------------------
+	
+	protected var barsSprite:Sprite;
 	
 	//--------------------------------------------------------------------------
 	//

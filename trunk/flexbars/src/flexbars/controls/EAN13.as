@@ -48,16 +48,16 @@ public class EAN13 extends EAN
 	
 	protected const leftHalfEncoding:Array = 
 	[
-		["A", "A", "A", "A", "A", "A"],
-		["A", "A", "B", "A", "B", "B"],
-		["A", "A", "B", "B", "A", "B"],
-		["A", "A", "B", "B", "B", "A"],
-		["A", "B", "A", "A", "B", "B"],
-		["A", "B", "B", "A", "A", "B"],
-		["A", "B", "B", "B", "A", "A"],
-		["A", "B", "A", "B", "A", "B"],
-		["A", "B", "A", "B", "B", "A"],
-		["A", "B", "B", "A", "B", "A"]
+		[false, false, false, false, false, false],
+		[false, false, true, false, true, true],
+		[false, false, true, true, false, true],
+		[false, false, true, true, true, false],
+		[false, true, false, false, true, true],
+		[false, true, true, false, false, true],
+		[false, true, true, true, false, false],
+		[false, true, false, true, false, true],
+		[false, true, false, true, true, false],
+		[false, true, true, false, true, false],
 	];
 	
 	//--------------------------------------------------------------------------
@@ -97,16 +97,16 @@ public class EAN13 extends EAN
 		var firstDigit:int = parseInt( code.charAt(0) );
 		var charIndex:int = 1;
 		
-		for each (var type:String in leftHalfEncoding[firstDigit])
+		for each (var reverse:Boolean in leftHalfEncoding[firstDigit])
 		{
-			encodeDigit(parseInt( code.charAt(charIndex++) ), type);
+			encodeDigit(parseInt( code.charAt(charIndex++) ), reverse);
 		}
 		
 		encodeCentralGuard();
 		
 		while (charIndex < 13)
 		{
-			encodeDigit(parseInt( code.charAt(charIndex++) ), "A");
+			encodeDigit( parseInt( code.charAt(charIndex++) ) );
 		}
 		
 		encodeNormalGuard();

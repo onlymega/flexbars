@@ -2,7 +2,7 @@
 <mx:Form
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:fb="http://code.google.com/p/flexbars"
-	width="580" height="380" label="EAN8"
+	width="580" height="380" label="Code25"
 	backgroundColor="white"
 	defaultButton="{submitButton}"
 >
@@ -18,16 +18,16 @@
 		]]>
 	</mx:Script>
 	
-	<fb:EAN8Validator id="validator" source="{code}" property="text"/>
+	<fb:Code25Validator id="validator" source="{code}" property="text"/>
 	
-	<mx:FormHeading label="European Article Numbering 8"/>
+	<mx:FormHeading label="Standard 2 of 5"/>
 	
 	<mx:FormItem label="Code">
-		<mx:TextInput id="code" maxChars="8"/>
+		<mx:TextInput id="code" maxChars="20"/>
 	</mx:FormItem>
 	
 	<mx:FormItem label="Description">
-		<mx:Text text="An EAN-8 is a barcode and is derived from the longer European Article Number (EAN-13) code. It was introduced for use on small packages where an EAN-13 barcode would be too large; for example on cigarettes, pencils (though it's not commonly used for pencils) and chewing gum packets." width="430"/>
+		<mx:Text text="Standard 2 of 5 was invented in early 1960s. Since then it has been widely used in warehouse, photo finishing and airline industries. It is also called industry 2 of 5." width="430"/>
 	</mx:FormItem>
 	
 	<mx:FormItem>
@@ -35,6 +35,6 @@
 	</mx:FormItem>
 	
 	<mx:FormItem id="barcodeItem">
-		<fb:EAN8 id="barcode" x="20" y="20" />
+		<fb:Code25 id="barcode" x="20" y="20" />
 	</mx:FormItem>
 </mx:Form>

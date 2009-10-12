@@ -1,7 +1,7 @@
 package flexbars.controls
 {
 
-import flash.display.Shape;
+import flash.display.Sprite;
 import flash.errors.IllegalOperationError;
 
 //--------------------------------------
@@ -98,23 +98,26 @@ internal class LinearBarcode extends Barcode
 	
 	protected function drawBars():void
 	{
-		var barsShape:Shape = new Shape();
+		if (barsSprite)
+			removeChild(barsSprite);
 		
-		barsShape.graphics.beginFill(0x000000);
+		barsSprite = new Sprite();
+		
+		barsSprite.graphics.beginFill(0x000000);
 		
 		var x:int = 11;
 		var n:int = bars.length;
 		for (var i:int = 0; i < n; i++)
 		{
 			if ( (i & 1) == 0 )
-				barsShape.graphics.drawRect(x, 0, bars[i], 40);
+				barsSprite.graphics.drawRect(x, 0, bars[i], 40);
 			
 			x += bars[i];
 		}
 		
-		barsShape.graphics.endFill();
+		barsSprite.graphics.endFill();
 		
-		addChild(barsShape);
+		addChild(barsSprite);
 	}
 	
     //----------------------------------
