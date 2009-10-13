@@ -27,7 +27,7 @@
 	</mx:FormItem>
 	
 	<mx:FormItem label="Description">
-		<mx:Text text="Standard 2 of 5 was invented in early 1960s. Since then it has been widely used in warehouse, photo finishing and airline industries. It is also called industry 2 of 5." width="430"/>
+		<mx:Text text="Stanadard 2 of 5 is a low-density numeric symbology that has been with us since the 1960s. It has been used in the photofinishing and warehouse sorting industries, as well as sequentially numbering airline tickets." width="430"/>
 	</mx:FormItem>
 	
 	<mx:FormItem>

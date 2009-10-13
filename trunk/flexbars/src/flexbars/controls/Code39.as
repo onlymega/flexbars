@@ -43,7 +43,7 @@ public class Code39 extends LinearBarcode
 	protected const charset:String =
 		"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%";
 	
-	protected const characterToBarEncoding:Array = 
+	private const characterToBarEncoding:Array = 
 	[
 		[1, 1, 1, 2, 2, 1, 2, 1, 1],
 		[2, 1, 1, 2, 1, 1, 1, 1, 2],
@@ -146,7 +146,7 @@ public class Code39 extends LinearBarcode
     //  encodeCharacter
     //----------------------------------
 	
-	protected final function encodeCharacter(character:String):void
+	protected function encodeCharacter(character:String):void
 	{
 		var characterIndex:int = character == "*" ?
 			charset.length : charset.indexOf(character);

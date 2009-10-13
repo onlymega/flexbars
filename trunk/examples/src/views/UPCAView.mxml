@@ -27,7 +27,7 @@
 	</mx:FormItem>
 	
 	<mx:FormItem label="Description">
-		<mx:Text text="The Universal Product Code (UPC) is a barcode symbology (i.e., a specific type of barcode), that is widely used in Canada and the United States for tracking trade items in stores." width="430"/>
+		<mx:Text text="The 'UPC-A bar code' is by far the most common and well-known symbology, at least in the United States. An UPC-A bar code is the bar code you will find on virtually every consumer good on the shelves of your local supermarket, as well as books, magazines, and newspapers." width="430"/>
 	</mx:FormItem>
 	
 	<mx:FormItem>

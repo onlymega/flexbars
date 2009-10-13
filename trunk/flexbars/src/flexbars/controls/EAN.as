@@ -22,7 +22,7 @@ import flexbars.utils.BarcodeUtil;
 //  Other metadata
 //--------------------------------------
 
-public class EAN extends LinearBarcode
+internal class EAN extends LinearBarcode
 {
 	
 	//--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ public class EAN extends LinearBarcode
 	//
 	//--------------------------------------------------------------------------
 	
-	protected const digitToBarEncoding:Array = 
+	private static const digitToBarsEncoding:Array = 
 	[
 		[3, 2, 1, 1],
 		[2, 2, 2, 1],
@@ -162,12 +162,13 @@ public class EAN extends LinearBarcode
     //  encodeDigit
     //----------------------------------
 	
-	protected final function encodeDigit(digit:int, reverse:Boolean = false):void
+	protected final function
+		encodeDigit(digit:int, reverse:Boolean = false):void
 	{
 		if (digit < 0 || digit > 9)
 			throw new ArgumentError("EAN encodeDigit digit");
 		
-		var encoding:Array = digitToBarEncoding[digit];
+		var encoding:Array = digitToBarsEncoding[digit];
 		
 		if (reverse)
 			encoding = encoding.concat().reverse();
