@@ -34,9 +34,9 @@ public class EAN13 extends EAN
 		guardIndices = [0, 2, 28, 30, 56, 58];
 		numberGroups =
 		[
-			[0, 1, 2],
-			[1, 6, 15],
-			[7, 6, 62]
+			[0, 1, -9],
+			[1, 6,  4],
+			[7, 6, 51]
 		];
 	}
 	
@@ -83,6 +83,17 @@ public class EAN13 extends EAN
 	//  Overridden methods
 	//
 	//--------------------------------------------------------------------------
+	
+    //----------------------------------
+    //  drawBars
+    //----------------------------------
+	
+	override protected function drawBars():void
+	{
+		super.drawBars();
+		
+		barsSprite.x = 9;
+	}
 	
     //----------------------------------
     //  encode

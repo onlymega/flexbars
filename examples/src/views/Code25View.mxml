@@ -23,7 +23,7 @@
 	<mx:FormHeading label="Standard 2 of 5"/>
 	
 	<mx:FormItem label="Code">
-		<mx:TextInput id="code" maxChars="20"/>
+		<mx:TextInput id="code" maxChars="15"/>
 	</mx:FormItem>
 	
 	<mx:FormItem label="Description">
@@ -34,7 +34,7 @@
 		<mx:Button id="submitButton" label="Generate" click="submitForm()"/>
 	</mx:FormItem>
 	
-	<mx:FormItem id="barcodeItem">
-		<fb:Code25 id="barcode" x="20" y="20" />
+	<mx:FormItem>
+		<fb:Code25 id="barcode" scaleX="2" scaleY="2" />
 	</mx:FormItem>
 </mx:Form>

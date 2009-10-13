@@ -9,13 +9,12 @@
 		width="580" height="42" fontFamily="Arial" fontSize="40"
 	/>
 	
-	<mx:TabBar x="30" y="60" maxWidth="580" dataProvider="viewstack"/>
-	
-	<mx:ViewStack x="30" y="79" id="viewstack" width="580" height="380">
+	<mx:TabNavigator x="30" y="60" id="viewstack" width="580" height="400">
 		<views:EAN13View/>
 		<views:EAN8View/>
 		<views:UPCAView/>
 		<views:Code25View/>
 		<views:ITF25View/>
-	</mx:ViewStack>
+		<views:Code39View/>
+	</mx:TabNavigator>
 </mx:Application>

@@ -1,7 +1,8 @@
 package flexbars.controls
 {
 
-import flash.errors.IllegalOperationError;
+import flash.display.Sprite;
+import flash.text.TextField;
 
 //--------------------------------------
 //  Events
@@ -19,7 +20,7 @@ import flash.errors.IllegalOperationError;
 //  Other metadata
 //--------------------------------------
 
-public class Code25 extends LinearBarcode
+public class Code39 extends LinearBarcode
 {
 	
 	//--------------------------------------------------------------------------
@@ -28,7 +29,7 @@ public class Code25 extends LinearBarcode
 	//
 	//--------------------------------------------------------------------------
 	
-	public function Code25()
+	public function Code39()
 	{
 		super();
 	}
@@ -39,18 +40,55 @@ public class Code25 extends LinearBarcode
 	//
 	//--------------------------------------------------------------------------
 	
-	protected const digitToBarEncoding:Array = 
+	protected const charset:String =
+		"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%";
+	
+	protected const characterToBarEncoding:Array = 
 	[
-		[1, 1, 2, 2, 1],
-		[2, 1, 1, 1, 2],
-		[1, 2, 1, 1, 2],
-		[2, 2, 1, 1, 1],
-		[1, 1, 2, 1, 2],
-		[2, 1, 2, 1, 1],
-		[1, 2, 2, 1, 1],
-		[1, 1, 1, 2, 2],
-		[2, 1, 1, 2, 1],
-		[1, 2, 1, 2, 1]
+		[1, 1, 1, 2, 2, 1, 2, 1, 1],
+		[2, 1, 1, 2, 1, 1, 1, 1, 2],
+		[1, 1, 2, 2, 1, 1, 1, 1, 2],
+		[2, 1, 2, 2, 1, 1, 1, 1, 1],
+		[1, 1, 1, 2, 2, 1, 1, 1, 2],
+		[2, 1, 1, 2, 2, 1, 1, 1, 1],
+		[1, 1, 2, 2, 2, 1, 1, 1, 1],
+		[1, 1, 1, 2, 1, 1, 2, 1, 2],
+		[2, 1, 1, 2, 1, 1, 2, 1, 1],
+		[1, 1, 2, 2, 1, 1, 2, 1, 1],
+		[2, 1, 1, 1, 1, 2, 1, 1, 2],
+		[1, 1, 2, 1, 1, 2, 1, 1, 2],
+		[2, 1, 2, 1, 1, 2, 1, 1, 1],
+		[1, 1, 1, 1, 2, 2, 1, 1, 2],
+		[2, 1, 1, 1, 2, 2, 1, 1, 1],
+		[1, 1, 2, 1, 2, 2, 1, 1, 1],
+		[1, 1, 1, 1, 1, 2, 2, 1, 2],
+		[2, 1, 1, 1, 1, 2, 2, 1, 1],
+		[1, 1, 2, 1, 1, 2, 2, 1, 1],
+		[1, 1, 1, 1, 2, 2, 2, 1, 1],
+		[2, 1, 1, 1, 1, 1, 1, 2, 2],
+		[1, 1, 2, 1, 1, 1, 1, 2, 2],
+		[2, 1, 2, 1, 1, 1, 1, 2, 1],
+		[1, 1, 1, 1, 2, 1, 1, 2, 2],
+		[2, 1, 1, 1, 2, 1, 1, 2, 1],
+		[1, 1, 2, 1, 2, 1, 1, 2, 1],
+		[1, 1, 1, 1, 1, 1, 2, 2, 2],
+		[2, 1, 1, 1, 1, 1, 2, 2, 1],
+		[1, 1, 2, 1, 1, 1, 2, 2, 1],
+		[1, 1, 1, 1, 2, 1, 2, 2, 1],
+		[2, 2, 1, 1, 1, 1, 1, 1, 2],
+		[1, 2, 2, 1, 1, 1, 1, 1, 2],
+		[2, 2, 2, 1, 1, 1, 1, 1, 1],
+		[1, 2, 1, 1, 2, 1, 1, 1, 2],
+		[2, 2, 1, 1, 2, 1, 1, 1, 1],
+		[1, 2, 2, 1, 2, 1, 1, 1, 1],
+		[1, 2, 1, 1, 1, 1, 2, 1, 2],
+		[2, 2, 1, 1, 1, 1, 2, 1, 1],
+		[1, 2, 2, 1, 1, 1, 2, 1, 1],
+		[1, 2, 1, 2, 1, 2, 1, 1, 1],
+		[1, 2, 1, 2, 1, 1, 1, 2, 1],
+		[1, 2, 1, 1, 1, 2, 1, 2, 1],
+		[1, 1, 1, 2, 1, 2, 1, 2, 1],
+		[1, 2, 1, 1, 2, 1, 2, 1, 1]
 	];
 	
 	//--------------------------------------------------------------------------
@@ -86,16 +124,16 @@ public class Code25 extends LinearBarcode
 		bars = [];
 		
 		// start sequence
-		bars.push(2, 1, 2, 1, 1, 1);
+		encodeCharacter("*");
 		
 		var n:int = code.length;
-		for (var i:int = 0; i < n; i++)
+		for (var i:int = 0; i < n; i ++)
 		{
-			encodeDigit( parseInt( code.charAt(i) ) );
+			encodeCharacter( code.charAt(i) );
 		}
 		
 		// end sequence
-		bars.push(2, 1, 1, 1, 2);
+		encodeCharacter("*");
 	}
 	
 	//--------------------------------------------------------------------------
@@ -105,18 +143,25 @@ public class Code25 extends LinearBarcode
 	//--------------------------------------------------------------------------
 	
     //----------------------------------
-    //  encodeDigit
+    //  encodeCharacter
     //----------------------------------
 	
-	private function encodeDigit(digit:int):void
+	protected final function encodeCharacter(character:String):void
 	{
-		if (digit < 0 || digit > 9)
-			throw new ArgumentError("Code25 encodeDigit digit");
+		var characterIndex:int = character == "*" ?
+			charset.length : charset.indexOf(character);
 		
-		for each (var b:int in digitToBarEncoding[digit])
+		if (characterIndex == -1)
+			throw new ArgumentError("Code39 encodeCharacter char");
+		
+		var encoding:Array = characterToBarEncoding[characterIndex];
+		
+		for each (var bar:int in encoding)
 		{
-			bars.push(b, 1);
+			bars.push(bar);
 		}
+		
+		bars.push(1);
 	}
 	
 	//--------------------------------------------------------------------------

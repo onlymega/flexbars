@@ -34,7 +34,7 @@
 		<mx:Button id="submitButton" label="Generate" click="submitForm()"/>
 	</mx:FormItem>
 	
-	<mx:FormItem id="barcodeItem">
-		<fb:UPC-A id="barcode" x="20" y="20" />
+	<mx:FormItem>
+		<fb:UPC-A id="barcode" scaleX="2" scaleY="2" />
 	</mx:FormItem>
 </mx:Form>

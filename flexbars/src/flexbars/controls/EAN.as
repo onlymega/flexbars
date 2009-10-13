@@ -106,7 +106,7 @@ public class EAN extends LinearBarcode
 		
 		barsSprite.graphics.beginFill(0x000000);
 		
-		var x:int = 11;
+		var x:int = 0;
 		var n:int = bars.length;
 		for (var i:int = 0; i < n; i++)
 		{
@@ -135,6 +135,7 @@ public class EAN extends LinearBarcode
 			var textField:TextField = new TextField();
 			
 			textField.text = code.substr(group[0], group[1]);
+			textField.selectable = false;
 			textField.x = group[2];
 			textField.y = 60;
 			
