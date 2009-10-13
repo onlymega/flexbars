@@ -46,7 +46,7 @@ public class EAN13 extends EAN
 	//
 	//--------------------------------------------------------------------------
 	
-	protected const leftHalfEncoding:Array = 
+	private static const leftHalfEncoding:Array = 
 	[
 		[false, false, false, false, false, false],
 		[false, false, true, false, true, true],

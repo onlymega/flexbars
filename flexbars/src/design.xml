@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<design>
+	<namespaces>
+		<namespace prefix="fb" uri="http://code.google.com/p/flexbars" />
+	</namespaces>
+	
+	<categories>
+		<category id="flexbars" label="FlexBars" defaultExpand="true"/>
+	</categories>
+	
+	<components>
+		<component name="Code25" namespace="fb" category="flexbars">
+			<defaultAttribute name="code" value="0123456789" />
+		</component>
+		<component name="Code39" namespace="fb" category="flexbars">
+			<defaultAttribute name="code" value="CODE39" />
+		</component>
+		<component name="EAN13" namespace="fb" category="flexbars">
+			<defaultAttribute name="code" value="000000000000" />
+		</component>
+		<component name="EAN8" namespace="fb" category="flexbars">
+			<defaultAttribute name="code" value="0000000" />
+		</component>
+		<component name="ITF25" namespace="fb" category="flexbars">
+			<defaultAttribute name="code" value="1234567890" />
+		</component>
+		<component name="UPC-A" namespace="fb" category="flexbars">
+			<defaultAttribute name="code" value="00000000000" />
+		</component>
+	</components>
+</design>

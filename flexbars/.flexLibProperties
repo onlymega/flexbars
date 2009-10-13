@@ -7,7 +7,9 @@
 <classEntry path="flexbars.validators.EAN13Validator"/>
 <classEntry path="flexbars.controls.Barcode"/>
 </includeClasses>
-<includeResources/>
+<includeResources>
+<resourceEntry destPath="design.xml" sourcePath="design.xml"/>
+</includeResources>
 <namespaceManifests>
 <namespaceManifestEntry manifest="manifest.xml" namespace="http://code.google.com/p/flexbars"/>
 </namespaceManifests>

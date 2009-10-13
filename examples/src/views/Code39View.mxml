@@ -27,7 +27,7 @@
 	</mx:FormItem>
 	
 	<mx:FormItem label="Description">
-		<mx:Text text="Code 39 (also known as 'USS Code 39', 'Code 3/9', 'Code 3 of 9', 'USD-3', 'Alpha39', 'Type 39') is a barcode symbology that can encode uppercase letters (A through Z), digits (0 through 9) and a handful of special characters like the $ sign." width="430"/>
+		<mx:Text text="Code 39, the first alpha-numeric symbology to be developed, is still widely used-especially in non-retail environments. It is the standard bar code used by the United States Department of Defense, and is also used by the Health Industry Bar Code Council (HIBCC)." width="430"/>
 	</mx:FormItem>
 	
 	<mx:FormItem>

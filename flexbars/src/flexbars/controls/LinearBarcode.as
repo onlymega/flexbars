@@ -22,6 +22,8 @@ import flash.text.TextFieldAutoSize;
 //  Other metadata
 //--------------------------------------
 
+[IconFile("LinearBarcode.png")]
+
 internal class LinearBarcode extends Barcode
 {
 	
