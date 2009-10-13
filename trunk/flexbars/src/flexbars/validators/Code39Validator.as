@@ -2,14 +2,17 @@ package flexbars.validators
 {
 
 import mx.validators.ValidationResult;
+import mx.validators.Validator;
 
-public class ITF25Validator extends Code25Validator
+public class Code39Validator extends Validator
 {
 	
-	public function ITF25Validator()
+	public function Code39Validator()
 	{
 		super();
 	}
+	
+	private var code39RegExp:RegExp = /^[A-Z0-9\-. $\/+%]+$/;
     
     override protected function doValidation(value:Object):Array
     {
@@ -18,9 +21,9 @@ public class ITF25Validator extends Code25Validator
         if (results.length > 0)
             return results;
         
-        if (String(value).length % 2 != 0)
+        if ( !code39RegExp.test( String(value) ) )
         	results.push(
-        		new ValidationResult(true, null, "", "Invalid ITF25 code")
+        		new ValidationResult(true, null, "", "Invalid Code39 code")
         	);
         
         return results;

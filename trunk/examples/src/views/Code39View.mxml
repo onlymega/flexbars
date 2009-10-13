@@ -2,7 +2,7 @@
 <mx:Form
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:fb="http://code.google.com/p/flexbars"
-	width="580" height="380" label="EAN13"
+	width="580" height="380" label="Code39"
 	backgroundColor="white"
 	defaultButton="{submitButton}"
 >
@@ -18,16 +18,16 @@
 		]]>
 	</mx:Script>
 	
-	<fb:EAN13Validator id="validator" source="{code}" property="text"/>
+	<fb:Code39Validator id="validator" source="{code}" property="text"/>
 	
-	<mx:FormHeading label="European Article Numbering 13"/>
+	<mx:FormHeading label="Code 3 of 9"/>
 	
 	<mx:FormItem label="Code">
-		<mx:TextInput id="code" maxChars="13"/>
+		<mx:TextInput id="code" maxChars="15"/>
 	</mx:FormItem>
 	
 	<mx:FormItem label="Description">
-		<mx:Text text="The EAN-13 barcodes are used worldwide for marking products often sold at retail point of sale. The less commonly used EAN-8 barcodes are used also for marking retail goods; however, they are usually reserved for smaller items, for example confectionery." width="430"/>
+		<mx:Text text="Code 39 (also known as 'USS Code 39', 'Code 3/9', 'Code 3 of 9', 'USD-3', 'Alpha39', 'Type 39') is a barcode symbology that can encode uppercase letters (A through Z), digits (0 through 9) and a handful of special characters like the $ sign." width="430"/>
 	</mx:FormItem>
 	
 	<mx:FormItem>
@@ -35,6 +35,6 @@
 	</mx:FormItem>
 	
 	<mx:FormItem>
-		<fb:EAN13 id="barcode" scaleX="2" scaleY="2"/>
+		<fb:Code39 id="barcode" scaleX="2" scaleY="2" />
 	</mx:FormItem>
 </mx:Form>

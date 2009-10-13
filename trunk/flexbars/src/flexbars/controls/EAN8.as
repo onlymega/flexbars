@@ -34,8 +34,8 @@ public class EAN8 extends EAN
 		guardIndices = [0, 2, 20, 22, 40, 42];
 		numberGroups =
 		[
-			[0, 4, 14],
-			[4, 4, 47]
+			[0, 4, 03],
+			[4, 4, 36]
 		];
 	}
 	

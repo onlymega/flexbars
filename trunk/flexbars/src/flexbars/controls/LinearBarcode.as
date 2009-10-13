@@ -3,6 +3,8 @@ package flexbars.controls
 
 import flash.display.Sprite;
 import flash.errors.IllegalOperationError;
+import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
 
 //--------------------------------------
 //  Events
@@ -105,7 +107,7 @@ internal class LinearBarcode extends Barcode
 		
 		barsSprite.graphics.beginFill(0x000000);
 		
-		var x:int = 11;
+		var x:int = 0;
 		var n:int = bars.length;
 		for (var i:int = 0; i < n; i++)
 		{
@@ -126,7 +128,24 @@ internal class LinearBarcode extends Barcode
 	
 	protected function drawLabel():void
 	{
-		throw new IllegalOperationError("LinearBarcode drawLabel");
+		var textField:TextField = new TextField();
+		
+		textField.text = code;
+		textField.selectable = false;
+		textField.x = 0;
+		textField.y = 36;
+		
+		var width:int = 0;
+		var n:int = bars.length;
+		for (var i:int = 0; i < n; i++)
+		{
+			width += bars[i];
+		}
+		
+		textField.width = width;
+		textField.autoSize = TextFieldAutoSize.CENTER;
+		
+		barsSprite.addChild(textField);
 	}
 	
     //----------------------------------
