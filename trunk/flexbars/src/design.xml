@@ -22,6 +22,9 @@
 		<component name="EAN8" namespace="fb" category="flexbars">
 			<defaultAttribute name="code" value="0000000" />
 		</component>
+		<component name="ExtendedCode39" namespace="fb" category="flexbars">
+			<defaultAttribute name="code" value="~CODE39~" />
+		</component>
 		<component name="ITF25" namespace="fb" category="flexbars">
 			<defaultAttribute name="code" value="1234567890" />
 		</component>

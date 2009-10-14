@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Form
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:fb="http://code.google.com/p/flexbars"
+	width="580" height="380" label="ExtendedCode39"
+	backgroundColor="white"
+	defaultButton="{submitButton}"
+>
+	<mx:Script>
+		<![CDATA[
+			import mx.validators.Validator;
+			
+			private function submitForm():void
+			{
+				if (Validator.validateAll([validator]).length == 0)
+					barcode.code = code.text;
+			}
+		]]>
+	</mx:Script>
+	
+	<fb:ExtendedCode39Validator id="validator" source="{code}" property="text"/>
+	
+	<mx:FormHeading label="Extended Code 3 of 9"/>
+	
+	<mx:FormItem label="Code">
+		<mx:TextInput id="code" maxChars="8"/>
+	</mx:FormItem>
+	
+	<mx:FormItem label="Description">
+		<mx:Text text="It is possible, using Code 39's 'Full ASCII Mode' to encode all 128 ASCII characters. This is accomplished by using the $, /, %, and + symbols as 'shift' characters. Those characters combined with the single character that follows indicate which Full ASCII character is to be used." width="430"/>
+	</mx:FormItem>
+	
+	<mx:FormItem>
+		<mx:Button id="submitButton" label="Generate" click="submitForm()"/>
+	</mx:FormItem>
+	
+	<mx:FormItem>
+		<fb:ExtendedCode39 id="barcode" scaleX="2" scaleY="2" />
+	</mx:FormItem>
+</mx:Form>

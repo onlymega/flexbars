@@ -4,15 +4,15 @@ package flexbars.validators
 import mx.validators.ValidationResult;
 import mx.validators.Validator;
 
-public class Code39Validator extends Validator
+public class ExtendedCode39Validator extends Validator
 {
 	
-	public function Code39Validator()
+	public function ExtendedCode39Validator()
 	{
 		super();
 	}
 	
-	private static const code39RegExp:RegExp = /^[A-Z0-9\-. $\/+%]+$/;
+	private static const extendedCode39RegExp:RegExp = /^[\x00-\x7F]+$/;
     
     override protected function doValidation(value:Object):Array
     {
@@ -21,9 +21,9 @@ public class Code39Validator extends Validator
         if (results.length > 0)
             return results;
         
-        if ( !code39RegExp.test( String(value) ) )
+        if ( !extendedCode39RegExp.test( String(value) ) )
         	results.push(
-        		new ValidationResult(true, null, "", "Invalid Code39 code")
+        		new ValidationResult(true, null, "", "Invalid ExtendedCode39 code")
         	);
         
         return results;
