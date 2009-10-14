@@ -17,7 +17,7 @@ package flexbars.controls
 //  Other metadata
 //--------------------------------------
 
-public class EAN13 extends EAN
+public class ExtendedCode39 extends Code39
 {
 	
 	//--------------------------------------------------------------------------
@@ -26,18 +26,16 @@ public class EAN13 extends EAN
 	//
 	//--------------------------------------------------------------------------
 	
-	public function EAN13()
+	public function ExtendedCode39()
 	{
 		super();
 		
-		codeLength = 13;
-		guardIndices = [0, 2, 28, 30, 56, 58];
-		numberGroups =
-		[
-			[0, 1, -9],
-			[1, 6,  4],
-			[7, 6, 51]
-		];
+		for each (var s:* in extendedCharactersEncoding) {
+			if(s is Function)
+				s = s();
+			
+			trace(s);
+		}
 	}
 	
 	//--------------------------------------------------------------------------
@@ -46,18 +44,30 @@ public class EAN13 extends EAN
 	//
 	//--------------------------------------------------------------------------
 	
-	private static const leftHalfEncoding:Array = 
+	private const asciiCharsetRegExp:RegExp = /^[\x00-\x7F]+$/;
+	
+	private const extendedCharactersEncoding:Array = 
 	[
-		[false, false, false, false, false, false],
-		[false, false, true, false, true, true],
-		[false, false, true, true, false, true],
-		[false, false, true, true, true, false],
-		[false, true, false, false, true, true],
-		[false, true, true, false, false, true],
-		[false, true, true, true, false, false],
-		[false, true, false, true, false, true],
-		[false, true, false, true, true, false],
-		[false, true, true, false, true, false],
+		"%U", "$A", "$B", "$C", "$D", "$E", "$F", "$G",
+		"$H", "$I", "$J", "$K", "$L", "$M", "$N", "$O",
+		"$P", "$Q", "$R", "$S", "$T", "$U", "$V", "$W",
+		"$X", "$Y", "$Z", "%A", "%B", "%C", "%D", "%E",
+		 " ", "/A", "/B", "/C", "/D", "/E", "/F", "/G",
+		"/H", "/I", "/J", "/K", "/L",  "-",  ".", "/O",
+		 "0",  "1",  "2",  "3",  "4",  "5",  "6",  "7",
+		 "8",  "9", "/Z", "%F", "%G", "%H", "%I", "%J",
+		"%V",  "A",  "B",  "C",  "D",  "E",  "F",  "G",
+		 "H",  "I",  "J",  "K",  "L",  "M",  "N",  "O",
+		 "P",  "Q",  "R",  "S",  "T",  "U",  "V",  "W",
+		 "X",  "Y",  "Z", "%K", "%L", "%M", "%N", "%O",
+		"%W", "+A", "+B", "+C", "+D", "+E", "+F", "+G",
+		"+H", "+I", "+J", "+K", "+L", "+M", "+N", "+O",
+		"+P", "+Q", "+R", "+S", "+T", "+U", "+V", "+W",
+		"+X", "+Y", "+Z", "%P", "%Q", "%R", "%S",
+		function():String
+		{
+			return ["%T", "%X", "%Y", "%Z"][Math.floor(Math.random() * 4)];
+		}
 	];
 	
 	//--------------------------------------------------------------------------
@@ -72,6 +82,18 @@ public class EAN13 extends EAN
 	//
 	//--------------------------------------------------------------------------
 	
+    //----------------------------------
+    //  code
+    //----------------------------------
+	
+	override public function set code(value:String):void
+	{
+		if( !asciiCharsetRegExp.test(value) )
+			throw new ArgumentError("ExtendedCode39 code value");
+		
+		super.code = value;
+	}
+	
 	//--------------------------------------------------------------------------
 	//
 	//  Properties
@@ -85,56 +107,23 @@ public class EAN13 extends EAN
 	//--------------------------------------------------------------------------
 	
     //----------------------------------
-    //  drawBars
+    //  encodeCharacter
     //----------------------------------
 	
-	override protected function drawBars():void
+	override protected function encodeCharacter(character:String):void
 	{
-		super.drawBars();
+		var asciiCode:int = character.charCodeAt(0);
+		var extendedCharacter:* = extendedCharactersEncoding[asciiCode];
 		
-		barsSprite.x = 9;
+		if(extendedCharacter is Function)
+			extendedCharacter = extendedCharacter();
+		
+		super.encodeCharacter( extendedCharacter.charAt(0) );
+		
+		if(extendedCharacter.length == 2)
+			super.encodeCharacter( extendedCharacter.charAt(1) );
 	}
 	
-    //----------------------------------
-    //  encode
-    //----------------------------------
-	
-	override protected function encode():void
-	{
-		bars = [];
-		
-		encodeNormalGuard();
-		
-		var firstDigit:int = parseInt( code.charAt(0) );
-		var charIndex:int = 1;
-		
-		for each (var reverse:Boolean in leftHalfEncoding[firstDigit])
-		{
-			encodeDigit(parseInt( code.charAt(charIndex++) ), reverse);
-		}
-		
-		encodeCentralGuard();
-		
-		while (charIndex < 13)
-		{
-			encodeDigit( parseInt( code.charAt(charIndex++) ) );
-		}
-		
-		encodeNormalGuard();
-	}
-	
-    //----------------------------------
-    //  measure
-    //----------------------------------
-	
-	override protected function measure():void
-    {
-        measuredMinWidth = 105;
-        measuredMinHeight = 70;
-        measuredWidth = 105;
-        measuredHeight = 70;
-    }
-    
 	//--------------------------------------------------------------------------
 	//
 	//  Methods
@@ -152,6 +141,7 @@ public class EAN13 extends EAN
 	//  Event handlers
 	//
 	//--------------------------------------------------------------------------
+	
 }
 
 }

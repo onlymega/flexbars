@@ -16,5 +16,6 @@
 		<views:Code25View/>
 		<views:ITF25View/>
 		<views:Code39View/>
+		<views:ExtendedCode39View/>
 	</mx:TabNavigator>
 </mx:Application>
