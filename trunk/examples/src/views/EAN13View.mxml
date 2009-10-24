@@ -27,7 +27,11 @@
 	</mx:FormItem>
 	
 	<mx:FormItem label="Description">
-		<mx:Text text="The EAN13 barcodes are used worldwide for marking products often sold at retail point of sale. The less commonly used EAN8 barcodes are used also for marking retail goods; however, they are usually reserved for smaller items, for example confectionery." width="430"/>
+		<mx:Text text="The EAN13 barcodes are used worldwide for marking products often sold at retail point of sale. The less commonly used EAN8 barcodes are used also for marking retail goods; however, they are usually reserved for smaller items, for example confectionery." width="460"/>
+	</mx:FormItem>
+	
+	<mx:FormItem label="Input">
+		<mx:Text text="12 or 13 digits.{'\n'}13-digits input must contain a valid checksum."/>
 	</mx:FormItem>
 	
 	<mx:FormItem>

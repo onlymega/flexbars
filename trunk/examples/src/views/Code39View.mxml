@@ -27,7 +27,11 @@
 	</mx:FormItem>
 	
 	<mx:FormItem label="Description">
-		<mx:Text text="Code 39, the first alpha-numeric symbology to be developed, is still widely used-especially in non-retail environments. It is the standard bar code used by the United States Department of Defense, and is also used by the Health Industry Bar Code Council (HIBCC)." width="430"/>
+		<mx:Text text="Code 39, the first alpha-numeric symbology to be developed, is still widely used-especially in non-retail environments. It is the standard bar code used by the United States Department of Defense, and is also used by the Health Industry Bar Code Council (HIBCC)." width="460"/>
+	</mx:FormItem>
+	
+	<mx:FormItem label="Input">
+		<mx:Text text="Up to 15 characters.{'\n'}Allowed charcaters : 0-9 A-Z - . $ \ / + % and the space character."/>
 	</mx:FormItem>
 	
 	<mx:FormItem>

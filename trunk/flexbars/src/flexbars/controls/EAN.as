@@ -42,7 +42,7 @@ internal class EAN extends LinearBarcode
 	//
 	//--------------------------------------------------------------------------
 	
-	private static const digitToBarsEncoding:Array = 
+	private static const DIGIT_ENCODING:Array = 
 	[
 		[3, 2, 1, 1],
 		[2, 2, 2, 1],
@@ -65,6 +65,11 @@ internal class EAN extends LinearBarcode
 	protected var codeLength:int;
 	protected var guardIndices:Array /* of int */ = null;
 	protected var numberGroups:Array = null;
+	
+	/* TODO
+	 * changer numberGroups pour y mettre des coordonnées complètes
+	 * des TextField et adapter le texte (kerning ?) à sa longueur.
+	 */
 	
 	//--------------------------------------------------------------------------
 	//
@@ -99,6 +104,9 @@ internal class EAN extends LinearBarcode
 	
 	override protected function drawBars():void
 	{
+		if (!bars)
+			return;
+		
 		if (barsSprite)
 			removeChild(barsSprite);
 		
@@ -122,6 +130,8 @@ internal class EAN extends LinearBarcode
 		barsSprite.graphics.endFill();
 		
 		addChild(barsSprite);
+		
+		drawLabel();
 	}
 	
     //----------------------------------
@@ -168,10 +178,10 @@ internal class EAN extends LinearBarcode
 		if (digit < 0 || digit > 9)
 			throw new ArgumentError("EAN encodeDigit digit");
 		
-		var encoding:Array = digitToBarsEncoding[digit];
+		var encoding:Array = DIGIT_ENCODING[digit];
 		
 		if (reverse)
-			encoding = encoding.concat().reverse();
+			encoding = encoding.slice().reverse();
 		
 		for each (var bar:int in encoding)
 		{

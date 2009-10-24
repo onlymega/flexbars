@@ -116,7 +116,7 @@ public class ITF25 extends Code25
 		
 		for (var i:int = 0; i < 5; i++)
 		{
-			bars.push(digitToBarEncoding[a][i], digitToBarEncoding[b][i]);
+			bars.push(DIGIT_ENCODING[a][i], DIGIT_ENCODING[b][i]);
 		}
 	}
 	

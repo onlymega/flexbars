@@ -29,13 +29,6 @@ public class ExtendedCode39 extends Code39
 	public function ExtendedCode39()
 	{
 		super();
-		
-		for each (var s:* in extendedCharactersEncoding) {
-			if(s is Function)
-				s = s();
-			
-			trace(s);
-		}
 	}
 	
 	//--------------------------------------------------------------------------
@@ -44,9 +37,9 @@ public class ExtendedCode39 extends Code39
 	//
 	//--------------------------------------------------------------------------
 	
-	private const asciiCharsetRegExp:RegExp = /^[\x00-\x7F]+$/;
+	private static const ASCII_CHARSET_REGEXP:RegExp = /^[\x00-\x7F]+$/;
 	
-	private const extendedCharactersEncoding:Array = 
+	private static const CHARACTER_ENCODING:Array = 
 	[
 		"%U", "$A", "$B", "$C", "$D", "$E", "$F", "$G",
 		"$H", "$I", "$J", "$K", "$L", "$M", "$N", "$O",
@@ -88,7 +81,7 @@ public class ExtendedCode39 extends Code39
 	
 	override public function set code(value:String):void
 	{
-		if( !asciiCharsetRegExp.test(value) )
+		if( !ASCII_CHARSET_REGEXP.test(value) )
 			throw new ArgumentError("ExtendedCode39 code value");
 		
 		super.code = value;
@@ -113,8 +106,9 @@ public class ExtendedCode39 extends Code39
 	override protected function encodeCharacter(character:String):void
 	{
 		var asciiCode:int = character.charCodeAt(0);
-		var extendedCharacter:* = extendedCharactersEncoding[asciiCode];
+		var extendedCharacter:* = CHARACTER_ENCODING[asciiCode];
 		
+		// TODO change "is Function" into "is Array"
 		if(extendedCharacter is Function)
 			extendedCharacter = extendedCharacter();
 		

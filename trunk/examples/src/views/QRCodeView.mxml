@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Form
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:fb="http://code.google.com/p/flexbars"
+	width="580" height="380" label="QRCode"
+	backgroundColor="white"
+	defaultButton="{submitButton}"
+>
+	<mx:Script>
+		<![CDATA[
+			import mx.validators.Validator;
+			
+			private function submitForm():void
+			{
+				if (Validator.validateAll([validator]).length == 0)
+					barcode.code = code.text;
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:RegExpValidator
+		id="validator" expression="^[A-Z0-9\- $%*+./:]+$"
+		source="{code}" property="text"
+	/>
+	
+	<mx:FormHeading label="Quick Response Code (experimental)"/>
+	
+	<mx:FormItem label="Code">
+		<mx:TextArea id="code" maxChars="500" width="460"/>
+	</mx:FormItem>
+	
+	<mx:FormItem label="Description">
+		<mx:Text text="A QR Code is a matrix code (or two-dimensional bar code) created by Japanese corporation Denso-Wave in 1994. The 'QR' is derived from 'Quick Response', as the creator intended the code to allow its contents to be decoded at high speed." width="460"/>
+	</mx:FormItem>
+	
+	<mx:FormItem label="Input">
+		<mx:Text text="Up to 500 characters.{'\n'}Allowed charcaters : 0-9 A-Z $ % * + - . / : and the space character."/>
+	</mx:FormItem>
+	
+	<mx:FormItem>
+		<mx:Button id="submitButton" label="Generate" click="submitForm()"/>
+	</mx:FormItem>
+	
+	<mx:FormItem direction="horizontal">
+		<fb:QRCode id="barcode" scaleX="2" scaleY="2" code="QRCODE" />
+	</mx:FormItem>
+</mx:Form>

@@ -27,7 +27,11 @@
 	</mx:FormItem>
 	
 	<mx:FormItem label="Description">
-		<mx:Text text="Stanadard 2 of 5 is a low-density numeric symbology that has been with us since the 1960s. It has been used in the photofinishing and warehouse sorting industries, as well as sequentially numbering airline tickets." width="430"/>
+		<mx:Text text="Stanadard 2 of 5 is a low-density numeric symbology that has been with us since the 1960s. It has been used in the photofinishing and warehouse sorting industries, as well as sequentially numbering airline tickets." width="460"/>
+	</mx:FormItem>
+	
+	<mx:FormItem label="Input">
+		<mx:Text text="Up to 15 digits."/>
 	</mx:FormItem>
 	
 	<mx:FormItem>

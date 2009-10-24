@@ -46,7 +46,7 @@ public class EAN13 extends EAN
 	//
 	//--------------------------------------------------------------------------
 	
-	private static const leftHalfEncoding:Array = 
+	private static const LEFT_HALF_ENCODING:Array = 
 	[
 		[false, false, false, false, false, false],
 		[false, false, true, false, true, true],
@@ -92,7 +92,8 @@ public class EAN13 extends EAN
 	{
 		super.drawBars();
 		
-		barsSprite.x = 9;
+		if (barsSprite)
+			barsSprite.x = 9;
 	}
 	
     //----------------------------------
@@ -108,7 +109,7 @@ public class EAN13 extends EAN
 		var firstDigit:int = parseInt( code.charAt(0) );
 		var charIndex:int = 1;
 		
-		for each (var reverse:Boolean in leftHalfEncoding[firstDigit])
+		for each (var reverse:Boolean in LEFT_HALF_ENCODING[firstDigit])
 		{
 			encodeDigit(parseInt( code.charAt(charIndex++) ), reverse);
 		}

@@ -27,7 +27,11 @@
 	</mx:FormItem>
 	
 	<mx:FormItem label="Description">
-		<mx:Text text="An EAN8 is a barcode and is derived from the longer European Article Number (EAN13) code. It was introduced for use on small packages where an EAN13 barcode would be too large; for example on cigarettes and chewing gum packets." width="430"/>
+		<mx:Text text="An EAN8 is a barcode and is derived from the longer European Article Number (EAN13) code. It was introduced for use on small packages where an EAN13 barcode would be too large; for example on cigarettes and chewing gum packets." width="460"/>
+	</mx:FormItem>
+	
+	<mx:FormItem label="Input">
+		<mx:Text text="7 or 8 digits.{'\n'}8-digits input must contain a valid checksum."/>
 	</mx:FormItem>
 	
 	<mx:FormItem>

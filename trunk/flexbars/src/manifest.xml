@@ -8,6 +8,7 @@
 	<component id="EAN8" class="flexbars.controls.EAN8" />
 	<component id="ExtendedCode39" class="flexbars.controls.ExtendedCode39" />
 	<component id="ITF25" class="flexbars.controls.ITF25" />
+	<component id="QRCode" class="flexbars.controls.QRCode" />
 	<component id="UPC-A" class="flexbars.controls.UPCA" />
 	
 	<component id="Code25Validator" class="flexbars.validators.Code25Validator" />

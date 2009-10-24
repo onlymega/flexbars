@@ -2,7 +2,6 @@ package flexbars.controls
 {
 
 import flash.display.Sprite;
-import flash.errors.IllegalOperationError;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 
@@ -58,31 +57,20 @@ internal class LinearBarcode extends Barcode
 	//
 	//--------------------------------------------------------------------------
 	
+	//----------------------------------
+	//  code
+	//----------------------------------
+	
+	override public function set code(value:String):void
+	{
+		super.code = value;
+	}
+
 	//--------------------------------------------------------------------------
 	//
 	//  Properties
 	//
 	//--------------------------------------------------------------------------
-	
-    //----------------------------------
-    //  code
-    //----------------------------------
-    
-    private var _code:String;
-    
-    public function get code():String
-    {
-    	return _code;
-    }
-    
-    public function set code(value:String):void
-    {
-    	_code = value;
-    	
-    	encode();
-    	drawBars();
-    	drawLabel();
-    }
 	
 	//--------------------------------------------------------------------------
 	//
@@ -100,8 +88,11 @@ internal class LinearBarcode extends Barcode
     //  drawBars
     //----------------------------------
 	
-	protected function drawBars():void
+	override protected function drawBars():void
 	{
+		if (!bars)
+			return;
+		
 		if (barsSprite)
 			removeChild(barsSprite);
 		
@@ -122,6 +113,8 @@ internal class LinearBarcode extends Barcode
 		barsSprite.graphics.endFill();
 		
 		addChild(barsSprite);
+		
+		drawLabel();
 	}
 	
     //----------------------------------
@@ -148,15 +141,6 @@ internal class LinearBarcode extends Barcode
 		textField.autoSize = TextFieldAutoSize.CENTER;
 		
 		barsSprite.addChild(textField);
-	}
-	
-    //----------------------------------
-    //  encode
-    //----------------------------------
-	
-	protected function encode():void
-	{
-		throw new IllegalOperationError("LinearBarcode encode");
 	}
 }
 
