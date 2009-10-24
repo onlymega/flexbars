@@ -27,7 +27,13 @@ import flexbars.utils.BitBuffer;
 //--------------------------------------
 //  Other metadata
 //--------------------------------------
-
+/**
+ * 
+ * 
+ * @see http://www.swetake.com/qr/
+ * @see http://www.swetake.com/qr/qr1_en.html
+ * @see http://rqrcode.rubyforge.org/
+ */
 public class QRCode extends MatrixBarcode
 {
 	
@@ -42,7 +48,7 @@ public class QRCode extends MatrixBarcode
 		super();
 		
 		_errorCorrectionLevel = ErrorCorrectionLevel.L;
-		_mode = Mode.ALPHANUMERIC;
+		_mode = Mode.ALPHANUMERIC; // TODO remove this instruction
 	}
 	
 	//--------------------------------------------------------------------------
