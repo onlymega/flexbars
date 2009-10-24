@@ -28,7 +28,11 @@
 	</mx:FormItem>
 	
 	<mx:FormItem label="Description">
-		<mx:Text text="Interleaved 2 of 5 is a higher-density numeric symbology based upon the Standard 2 of 5 symbology. It is used primarily in the distribution and warehouse industry." width="430"/>
+		<mx:Text text="Interleaved 2 of 5 is a higher-density numeric symbology based upon the Standard 2 of 5 symbology. It is used primarily in the distribution and warehouse industry." width="460"/>
+	</mx:FormItem>
+	
+	<mx:FormItem label="Input">
+		<mx:Text text="Up to 30 digits.{'\n'}The number of digits must be even."/>
 	</mx:FormItem>
 	
 	<mx:FormItem>

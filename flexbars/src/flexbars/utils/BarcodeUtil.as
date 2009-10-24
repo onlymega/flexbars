@@ -1,23 +1,6 @@
 package flexbars.utils
 {
 
-
-//--------------------------------------
-//  Events
-//--------------------------------------
-
-//--------------------------------------
-//  Styles
-//--------------------------------------
-
-//--------------------------------------
-//  Excluded APIs
-//--------------------------------------
-
-//--------------------------------------
-//  Other metadata
-//--------------------------------------
-
 public class BarcodeUtil
 {
     
@@ -44,7 +27,7 @@ public class BarcodeUtil
 			return code + checkDigit;
 		
 		if (parseInt( code.charAt(codeLength - 1) ) != checkDigit)
-			throw new ArgumentError("BarcodeUtil checkMod10Digit check digit");
+			throw new ArgumentError("BarcodeUtil checkMod10Digit invalid check digit");
 		
 		return code;
 	}

@@ -40,10 +40,10 @@ public class Code39 extends LinearBarcode
 	//
 	//--------------------------------------------------------------------------
 	
-	protected const charset:String =
+	private static const CHARSET:String =
 		"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%";
 	
-	private const characterToBarEncoding:Array = 
+	private static const CHARACTER_ENCODING:Array = 
 	[
 		[1, 1, 1, 2, 2, 1, 2, 1, 1, 1],
 		[2, 1, 1, 2, 1, 1, 1, 1, 2, 1],
@@ -150,12 +150,12 @@ public class Code39 extends LinearBarcode
 		if (character == "*")
 			return encodeStar();
 		
-		var characterIndex:int = charset.indexOf(character);
+		var characterIndex:int = CHARSET.indexOf(character);
 		
 		if (characterIndex == -1)
 			throw new ArgumentError("Code39 encodeCharacter char");
 		
-		var encoding:Array = characterToBarEncoding[characterIndex];
+		var encoding:Array = CHARACTER_ENCODING[characterIndex];
 		
 		for each (var bar:int in encoding)
 		{

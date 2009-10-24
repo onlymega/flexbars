@@ -1,7 +1,7 @@
 package flexbars.controls
 {
 
-import flash.errors.IllegalOperationError;
+import flash.display.Sprite;
 
 //--------------------------------------
 //  Events
@@ -19,7 +19,7 @@ import flash.errors.IllegalOperationError;
 //  Other metadata
 //--------------------------------------
 
-public class Code25 extends LinearBarcode
+internal class MatrixBarcode extends Barcode
 {
 	
 	//--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ public class Code25 extends LinearBarcode
 	//
 	//--------------------------------------------------------------------------
 	
-	public function Code25()
+	public function MatrixBarcode()
 	{
 		super();
 	}
@@ -39,25 +39,13 @@ public class Code25 extends LinearBarcode
 	//
 	//--------------------------------------------------------------------------
 	
-	protected static const DIGIT_ENCODING:Array = 
-	[
-		[1, 1, 2, 2, 1],
-		[2, 1, 1, 1, 2],
-		[1, 2, 1, 1, 2],
-		[2, 2, 1, 1, 1],
-		[1, 1, 2, 1, 2],
-		[2, 1, 2, 1, 1],
-		[1, 2, 2, 1, 1],
-		[1, 1, 1, 2, 2],
-		[2, 1, 1, 2, 1],
-		[1, 2, 1, 2, 1]
-	];
-	
 	//--------------------------------------------------------------------------
 	//
 	//  Variables
 	//
 	//--------------------------------------------------------------------------
+	
+	protected var matrix:Array /* Boolean[][] */;
 	
 	//--------------------------------------------------------------------------
 	//
@@ -77,60 +65,55 @@ public class Code25 extends LinearBarcode
 	//
 	//--------------------------------------------------------------------------
 	
-    //----------------------------------
-    //  encode
-    //----------------------------------
-	
-	override protected function encode():void
-	{
-		bars = [];
-		
-		// start sequence
-		bars.push(2, 1, 2, 1, 1, 1);
-		
-		var n:int = code.length;
-		for (var i:int = 0; i < n; i++)
-		{
-			encodeDigit( parseInt( code.charAt(i) ) );
-		}
-		
-		// end sequence
-		bars.push(2, 1, 1, 1, 2);
-	}
-	
 	//--------------------------------------------------------------------------
 	//
 	//  Methods
 	//
 	//--------------------------------------------------------------------------
 	
-    //----------------------------------
-    //  encodeDigit
+	//----------------------------------
+    //  drawBars
     //----------------------------------
 	
-	private function encodeDigit(digit:int):void
+	override protected function drawBars():void
 	{
-		if (digit < 0 || digit > 9)
-			throw new ArgumentError("Code25 encodeDigit digit");
+		if (barsSprite)
+			removeChild(barsSprite);
 		
-		for each (var b:int in DIGIT_ENCODING[digit])
+		barsSprite = new Sprite();
+		
+		barsSprite.graphics.beginFill(0x000000);
+		
+		for (var x:int = 0; x < matrix.length; x++)
 		{
-			bars.push(b, 1);
+			for (var y:int = 0; y < matrix[x].length; y++)
+			{
+				if ( matrix[x][y] )
+					barsSprite.graphics.drawRect(x, y, 1, 1);
+			}
 		}
+		
+		barsSprite.graphics.endFill();
+		
+		addChild(barsSprite);
 	}
 	
-	//--------------------------------------------------------------------------
-	//
-	//  Overridden event handlers
-	//
-	//--------------------------------------------------------------------------
+	//----------------------------------
+    //  initializeMatrix
+    //----------------------------------
 	
-	//--------------------------------------------------------------------------
-	//
-	//  Event handlers
-	//
-	//--------------------------------------------------------------------------
-	
+	protected function initializeMatrix(width:int, height:int):void
+	{
+		if (width <= 0 || height <= 0)
+			throw new ArgumentError("MatrixBarcode initializeMatrix size");
+		
+		matrix = new Array(width);
+		
+		for(var i:int = 0; i < width; i++)
+		{
+			matrix[i] = new Array(height);
+		}
+	}
 }
 
 }

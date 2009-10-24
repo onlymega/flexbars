@@ -2,8 +2,8 @@
 <mx:Application
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:views="views.*" backgroundColor="white"
-	width="640" height="480" layout="absolute"
->
+	width="640" height="480" layout="absolute">
+	
 	<mx:Label
 		x="30" y="10" text="Barcode Demonstration"
 		width="580" height="42" fontFamily="Arial" fontSize="40"
@@ -17,5 +17,6 @@
 		<views:ITF25View/>
 		<views:Code39View/>
 		<views:ExtendedCode39View/>
+		<views:QRCodeView/>
 	</mx:TabNavigator>
 </mx:Application>

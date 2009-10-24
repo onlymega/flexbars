@@ -28,6 +28,9 @@
 		<component name="ITF25" namespace="fb" category="flexbars">
 			<defaultAttribute name="code" value="1234567890" />
 		</component>
+		<component name="QRCode" namespace="fb" category="flexbars">
+			<defaultAttribute name="code" value="QRCODE" />
+		</component>
 		<component name="UPC-A" namespace="fb" category="flexbars">
 			<defaultAttribute name="code" value="00000000000" />
 		</component>

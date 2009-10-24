@@ -2,7 +2,7 @@
 <mx:Form
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:fb="http://code.google.com/p/flexbars"
-	width="580" height="380" label="ExtendedCode39"
+	width="580" height="380" label="Code39Ex"
 	backgroundColor="white"
 	defaultButton="{submitButton}"
 >
@@ -27,7 +27,11 @@
 	</mx:FormItem>
 	
 	<mx:FormItem label="Description">
-		<mx:Text text="It is possible, using Code 39's 'Full ASCII Mode' to encode all 128 ASCII characters. This is accomplished by using the $, /, %, and + symbols as 'shift' characters. Those characters combined with the single character that follows indicate which Full ASCII character is to be used." width="430"/>
+		<mx:Text text="It is possible, using Code 39's 'Full ASCII Mode' to encode all 128 ASCII characters. This is accomplished by using the $, /, %, and + symbols as 'shift' characters. Those characters combined with the single character that follows indicate which Full ASCII character is to be used." width="460"/>
+	</mx:FormItem>
+	
+	<mx:FormItem label="Input">
+		<mx:Text text="Up to 8 standard ASCII characters."/>
 	</mx:FormItem>
 	
 	<mx:FormItem>

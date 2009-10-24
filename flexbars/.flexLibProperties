@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <flexLibProperties version="1">
-<includeClasses>
-<classEntry path="flexbars.utils.BarcodeUtil"/>
-<classEntry path="flexbars.controls.UPCA"/>
-<classEntry path="flexbars.controls.LinearBarcode"/>
-<classEntry path="flexbars.validators.EAN13Validator"/>
-<classEntry path="flexbars.controls.ExtendedCode39"/>
-<classEntry path="flexbars.controls.Barcode"/>
-</includeClasses>
+<includeClasses/>
 <includeResources>
 <resourceEntry destPath="design.xml" sourcePath="design.xml"/>
 </includeResources>
