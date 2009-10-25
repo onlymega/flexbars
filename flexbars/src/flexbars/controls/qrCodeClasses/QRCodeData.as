@@ -14,10 +14,13 @@ public class QRCodeData
 	//
 	//--------------------------------------------------------------------------
 	
-	public function QRCodeData(qrCodeData:QRCodeData = null)
+	public function QRCodeData()
 	{
-		if (this != qrCodeData)
+		if (_data == null || _mode == null)
 			throw new IllegalOperationError("QRCodeData is abstract.");
+		
+		if (Mode.getMode(_data) != _mode)
+			throw new ArgumentError("QRCodeData invalid data.");
 	}
 	
 	//--------------------------------------------------------------------------

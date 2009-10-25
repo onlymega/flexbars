@@ -21,11 +21,7 @@
 	<mx:FormHeading label="Quick Response Code (experimental)"/>
 	
 	<mx:FormItem label="Code">
-		<mx:TextArea
-			id="code" width="460" height="50"
-			maxChars="500" restrict="A-Z0-9- $%*+./:"
-			textInput="if (event.text == '\n') event.preventDefault();"
-		/>
+		<mx:TextArea id="code" width="460" height="50" maxChars="500" />
 	</mx:FormItem>
 	
 	<mx:FormItem label="Description">
@@ -33,7 +29,7 @@
 	</mx:FormItem>
 	
 	<mx:FormItem label="Input">
-		<mx:Text text="Up to 500 characters.{'\n'}Allowed charcaters : 0-9 A-Z . + - * / $ : % and the space character."/>
+		<mx:Text text="Up to 500 characters."/>
 	</mx:FormItem>
 	
 	<mx:FormItem>

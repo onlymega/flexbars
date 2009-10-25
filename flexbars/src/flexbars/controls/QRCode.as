@@ -51,7 +51,6 @@ public class QRCode extends MatrixBarcode
 		super();
 		
 		_errorCorrectionLevel = ErrorCorrectionLevel.L;
-		_mode = Mode.ALPHANUMERIC; // TODO remove this instruction
 	}
 	
 	//--------------------------------------------------------------------------
@@ -143,7 +142,7 @@ public class QRCode extends MatrixBarcode
 	override public function set code(value:String):void
 	{
 		dataList.clear();
-		dataList.add(value, _mode);
+		dataList.add(value);
 		
 		super.code = value;
 	}
@@ -185,29 +184,6 @@ public class QRCode extends MatrixBarcode
 		catch(e:Error)
 		{
 			throw new ArgumentError("QRCode errorCorrectionLevel value.");
-		}
-	}
-	
-	//----------------------------------
-	//  mode
-	//----------------------------------
-	
-	private var _mode:Mode = Mode.AUTO;
-	
-	public function get mode():String
-	{
-		return String(_mode);
-	}
-	
-	public function set mode(value:String):void
-	{
-		try
-		{
-			_mode = Mode[value];
-		}
-		catch(e:Error)
-		{
-			throw new ArgumentError("QRCode mode value.");
 		}
 	}
 	
