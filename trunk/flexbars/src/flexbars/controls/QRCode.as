@@ -242,10 +242,11 @@ public class QRCode extends MatrixBarcode
 	//----------------------------------
 	
 	private var _version:int = VERSION_AUTO;
+	private var _actualVersion:Number = NaN;
 	
 	public function get version():int
 	{
-		return _version;
+		return isNaN(_actualVersion) ? _version : _actualVersion;
 	}
 	
 	public function set version(value:int):void
@@ -293,7 +294,7 @@ public class QRCode extends MatrixBarcode
 	
 	override protected function measure():void
     {
-    	// don't forget quiet zones !!
+    	// TODO quiet zones !!
         measuredMinWidth = size;
         measuredMinHeight = size;
         measuredWidth = size;
@@ -353,21 +354,21 @@ public class QRCode extends MatrixBarcode
 			}
 		}
 		
-		var totalCodeBytes : int = 0;
+		var totalCodeBytes:int = 0;
 		for each (var block:ReedSolomonBlock in rsBlocks)
 		{
 			totalCodeBytes += block.totalBytes;
 		}
 		
-		var data : Array = new Array(totalCodeBytes);
-		var index : int = 0;
+		var bytes:Array /* of int */ = new Array(totalCodeBytes);
+		var index:int = 0;
 		
 		for (i = 0; i < maxDataCodeBytes; i++)
 		{
 			for (r = 0; r < rsBlocksLength; r++)
 			{
 				if (i < dataCodes[r].length)
-					data[index++] = dataCodes[r][i];
+					bytes[index++] = dataCodes[r][i];
 			}
 		}
 		
@@ -376,11 +377,11 @@ public class QRCode extends MatrixBarcode
 			for (r = 0; r < rsBlocksLength; r++)
 			{
 				if (i < errorCodes[r].length)
-					data[index++] = errorCodes[r][i];
+					bytes[index++] = errorCodes[r][i];
 			}
 		}
 		
-		return data;
+		return bytes;
 	}
 	
 	//----------------------------------
@@ -389,7 +390,7 @@ public class QRCode extends MatrixBarcode
 	
 	private static function createData
 		(version:int, ecl:ErrorCorrectionLevel, dataList:QRCodeDataList)
-		:Array /* of int */
+		:Array /* of Object */
 	{
 		var rsBlocks:Array /* of ReedSolomonBlock */ =
 			ReedSolomonBlock.getBlocks(version, ecl);
@@ -431,7 +432,7 @@ public class QRCode extends MatrixBarcode
 			i++;
 		}
 		
-		return createBytes(buffer, rsBlocks);
+		return [buffer, rsBlocks];
 	}
 	
 	//----------------------------------
@@ -440,8 +441,36 @@ public class QRCode extends MatrixBarcode
 	
 	private function encodeData(pattern:MaskPattern, patternTest:Boolean):void
 	{
-		if (version == VERSION_AUTO)
-			version = 14; // TODO findMinimumVersion
+		var data:Array /* of int */;
+		
+		if (_version == VERSION_AUTO)
+		{
+			_actualVersion = 0;
+			while (_actualVersion++ < VERSION_MAX)
+			{
+				try
+				{
+					data = createData(_actualVersion, _errorCorrectionLevel, dataList);
+					break;
+				}
+				catch(e:Error)
+				{
+				}
+			}
+		}
+		else
+		{
+			_actualVersion = NaN;
+			data = createData(version, _errorCorrectionLevel, dataList);
+		}
+		
+		if (data == null)
+			throw new Error("Data overflow.");
+		
+		var bitBuffer:BitBuffer = data[0];
+		var rsBlocks:Array /* of ReedSolomonBlock */ = data[1];
+		
+		var bytes:Array /* of int */ = createBytes(bitBuffer, rsBlocks);
 		
 		initializeMatrix(size, size);
 		
@@ -450,10 +479,7 @@ public class QRCode extends MatrixBarcode
 		if (version >= 7)
 			setupVersionInfo(patternTest);
 		
-		// TODO separate createData from createBytes
-		var data:Array = createData(version, _errorCorrectionLevel, dataList);
-		
-		mapData(data, pattern);
+		mapData(bytes, pattern);
 	}
 	
 	//----------------------------------
@@ -463,15 +489,6 @@ public class QRCode extends MatrixBarcode
 	private function findBestPattern():MaskPattern
 	{
 		return MaskPatterns[0]; // TODO implementation
-	}
-	
-	//----------------------------------
-	//  findBestVersion
-	//----------------------------------
-	
-	private function findMinimumVersion():int
-	{
-		return VERSION_MAX; // TODO implementation
 	}
 	
 	//----------------------------------
