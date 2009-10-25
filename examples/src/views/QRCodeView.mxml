@@ -41,7 +41,7 @@
 		<mx:Button id="submitButton" label="Generate" click="submitForm()"/>
 	</mx:FormItem>
 	
-	<mx:FormItem direction="horizontal">
+	<mx:FormItem>
 		<fb:QRCode id="barcode" scaleX="2" scaleY="2" code="QRCODE" />
 	</mx:FormItem>
 </mx:Form>
