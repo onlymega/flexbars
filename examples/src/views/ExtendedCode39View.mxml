@@ -23,7 +23,7 @@
 	<mx:FormHeading label="Extended Code 3 of 9"/>
 	
 	<mx:FormItem label="Code">
-		<mx:TextInput id="code" maxChars="8"/>
+		<mx:TextInput id="code" maxChars="8" restrict="\x00-\x7F"/>
 	</mx:FormItem>
 	
 	<mx:FormItem label="Description">

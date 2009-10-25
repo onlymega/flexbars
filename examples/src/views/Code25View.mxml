@@ -23,7 +23,7 @@
 	<mx:FormHeading label="Standard 2 of 5"/>
 	
 	<mx:FormItem label="Code">
-		<mx:TextInput id="code" maxChars="15"/>
+		<mx:TextInput id="code" maxChars="15" restrict="0-9"/>
 	</mx:FormItem>
 	
 	<mx:FormItem label="Description">
