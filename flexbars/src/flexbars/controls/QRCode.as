@@ -27,6 +27,9 @@ import flexbars.utils.BitBuffer;
 //--------------------------------------
 //  Other metadata
 //--------------------------------------
+
+[IconFile("QRCode.png")]
+
 /**
  * 
  * 
@@ -143,24 +146,6 @@ public class QRCode extends MatrixBarcode
 		dataList.add(value, _mode);
 		
 		super.code = value;
-	}
-	
-	//----------------------------------
-	//  measuredWidth
-	//----------------------------------
-	
-	override public function get measuredWidth():Number
-	{
-		return size * 3;
-	}
-	
-	//----------------------------------
-	//  measuredHeight
-	//----------------------------------
-	
-	override public function get measuredHeight():Number
-	{
-		return size;
 	}
 	
 	//--------------------------------------------------------------------------
