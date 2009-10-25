@@ -24,7 +24,7 @@
 	<mx:FormHeading label="Interleaved 2 of 5"/>
 	
 	<mx:FormItem label="Code">
-		<mx:TextInput id="code" maxChars="30" width="260"/>
+		<mx:TextInput id="code" maxChars="30" width="260" restrict="0-9"/>
 	</mx:FormItem>
 	
 	<mx:FormItem label="Description">
