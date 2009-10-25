@@ -73,7 +73,7 @@ public class QRCodeDataList
 			}
 			case Mode.KANJI:
 			{
-				return null;//new KanjiData(data);
+				return new KanjiData(data);
 			}
 			default:
 			{

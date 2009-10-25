@@ -1,9 +1,11 @@
 package flexbars.controls.qrCodeClasses
 {
 
+import flash.utils.ByteArray;
+
 import flexbars.utils.BitBuffer;
 
-public class AlphanumericData extends QRCodeData
+public class KanjiData extends QRCodeData
 {
 	
 	//--------------------------------------------------------------------------
@@ -12,22 +14,23 @@ public class AlphanumericData extends QRCodeData
 	//
 	//--------------------------------------------------------------------------
 	
-	public function AlphanumericData(data:String)
+	public function KanjiData(data:String)
 	{
 		_data = data;
-		_mode = Mode.ALPHANUMERIC;
+		_mode = Mode.KANJI;
 		
 		super();
+		
+		bytes.writeMultiByte(_data, "shift_jis");
 	}
 	
 	//--------------------------------------------------------------------------
 	//
-	//  Constants
+	//  Variables
 	//
 	//--------------------------------------------------------------------------
 	
-	private static const CHARSET:String =
-		"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:";
+	private var bytes:ByteArray = new ByteArray();
 	
 	//--------------------------------------------------------------------------
 	//
@@ -41,9 +44,9 @@ public class AlphanumericData extends QRCodeData
 	
 	override public function get length():int
 	{
-		return data.length;
+		return bytes.length;
 	}
-	
+
 	//--------------------------------------------------------------------------
 	//
 	//  Overridden methods
@@ -56,17 +59,14 @@ public class AlphanumericData extends QRCodeData
 	
 	override public function encode(buffer:BitBuffer):void
 	{
-		var i:int = 0;
-		var n:int = data.length;
-		
-		while (i + 1 < n)
+		var n:int = bytes.length;
+		for (var i:int = 0; i + 1 < n; i += 2)
 		{
-			buffer.pushBits(getCode(i) * 45 + getCode(i+1), 11);
-			i += 2;
+			buffer.pushBits(getCode(i), 13);
 		}
 		
 		if (i < n)
-			buffer.pushBits(getCode(i), 6);
+			throw new ArgumentError("KanjiData encode data");
 	}
 	
 	//--------------------------------------------------------------------------
@@ -75,19 +75,26 @@ public class AlphanumericData extends QRCodeData
 	//
 	//--------------------------------------------------------------------------
 	
-	//----------------------------------
-	//  getCode
-	//----------------------------------
-	
-	private function getCode(index:int):int
-	{
-		var code:int = CHARSET.indexOf( data.charAt(index) );
+    //----------------------------------
+    //  getCode
+    //----------------------------------
+    
+    private function getCode(index:int):int
+    {
+		var code:int;
+		var character:int = (bytes[index] << 8) | bytes[index + 1];
 		
-		if (code == -1)
-			throw new ArgumentError("AlphanumericData encode data");
+		if (character >= 0x8140 && character <= 0x9FFC)
+			code = character - 0x8140;
+		else if (character >= 0xE040 && character <= 0xEBBF)
+			code = character - 0xC140;
+		else
+			throw new ArgumentError("KanjiData getCode data");
+		
+		code = ((code >> 8) & 0xFF) * 0xC0 + (code & 0xFF);
 		
 		return code;
-	}
+    }
 }
 
 }
