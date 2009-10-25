@@ -61,7 +61,7 @@ public class QRCodeDataList
 		{
 			case Mode.NUMERIC:
 			{
-				return null;//new NumericData(data);
+				return new NumericData(data);
 			}
 			case Mode.ALPHANUMERIC:
 			{
@@ -69,7 +69,7 @@ public class QRCodeDataList
 			}
 			case Mode.BINARY:
 			{
-				return null;//new BinaryData(data);
+				return new BinaryData(data);
 			}
 			case Mode.KANJI:
 			{

@@ -3,7 +3,7 @@ package flexbars.controls.qrCodeClasses
 
 import flexbars.utils.BitBuffer;
 
-public class AlphanumericData extends QRCodeData
+public class NumericData extends QRCodeData
 {
 	
 	//--------------------------------------------------------------------------
@@ -12,22 +12,13 @@ public class AlphanumericData extends QRCodeData
 	//
 	//--------------------------------------------------------------------------
 	
-	public function AlphanumericData(data:String)
+	public function NumericData(data:String)
 	{
 		_data = data;
-		_mode = Mode.ALPHANUMERIC;
+		_mode = Mode.NUMERIC;
 		
 		super();
 	}
-	
-	//--------------------------------------------------------------------------
-	//
-	//  Constants
-	//
-	//--------------------------------------------------------------------------
-	
-	private static const CHARSET:String =
-		"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:";
 	
 	//--------------------------------------------------------------------------
 	//
@@ -59,34 +50,16 @@ public class AlphanumericData extends QRCodeData
     	var i:int = 0;
     	var n:int = data.length;
     	
-    	while (i + 1 < n)
+    	while (i + 2 < n)
     	{
-    		buffer.pushBits(getCode(i) * 45 + getCode(i+1), 11);
-    		i += 2;
+    		buffer.pushBits(parseInt( data.substr(i, 3) ), 10);
+    		i += 3;
     	}
     	
-    	if (i < n)
-    		buffer.pushBits(getCode(i), 6);
-    }
-	
-	//--------------------------------------------------------------------------
-	//
-	//  Methods
-	//
-	//--------------------------------------------------------------------------
-	
-    //----------------------------------
-    //  getCode
-    //----------------------------------
-    
-    private function getCode(index:int):int
-    {
-    	var code:int = CHARSET.indexOf( data.charAt(index) );
-    	
-		if (code == -1)
-			throw new ArgumentError("AlphanumericData encode data");
-		
-		return code;
+    	if (i + 2 == n)
+    		buffer.pushBits(parseInt( data.substr(i, 2) ), 7);
+    	else if (i + 1 == n)
+    		buffer.pushBits(parseInt( data.substr(i, 1) ), 4);
     }
 }
 

@@ -74,7 +74,7 @@ public final class Mode
 	public static function getMode(data:String):Mode
 	{
 		if(data.length == 0)
-			throw new ArgumentError("Mode getMode data");
+			throw new ArgumentError("Mode getMode empty data");
 		
 		if ( isMode(data, Mode.NUMERIC) )
 			return Mode.NUMERIC;
