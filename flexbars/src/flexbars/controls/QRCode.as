@@ -5,7 +5,6 @@ import flexbars.controls.qrCodeClasses.BCH;
 import flexbars.controls.qrCodeClasses.ErrorCorrectionLevel;
 import flexbars.controls.qrCodeClasses.MaskPattern;
 import flexbars.controls.qrCodeClasses.MaskPatterns;
-import flexbars.controls.qrCodeClasses.Mode;
 import flexbars.controls.qrCodeClasses.Polynomial;
 import flexbars.controls.qrCodeClasses.QRCodeData;
 import flexbars.controls.qrCodeClasses.QRCodeDataList;
@@ -230,7 +229,7 @@ public class QRCode extends MatrixBarcode
 	
 	override protected function encode():void
 	{
-		encodeData(findBestPattern(), false);
+		encodeData(findBestMaskPattern(), false);
 	}
 	
 	//----------------------------------
@@ -248,19 +247,6 @@ public class QRCode extends MatrixBarcode
 		setupPositionAdjustmentPatterns();
 		setupTimingPatterns();
 	}
-	
-    //----------------------------------
-    //  measure
-    //----------------------------------
-	
-	override protected function measure():void
-    {
-    	// TODO quiet zones !!
-        measuredMinWidth = size;
-        measuredMinHeight = size;
-        measuredWidth = size;
-        measuredHeight = size;
-    }
 	
 	//--------------------------------------------------------------------------
 	//
@@ -447,9 +433,121 @@ public class QRCode extends MatrixBarcode
 	//  findBestPattern
 	//----------------------------------
 	
-	private function findBestPattern():MaskPattern
+	private function findBestMaskPattern():MaskPattern
 	{
-		return MaskPatterns[0]; // TODO implementation
+		var bestPatternLostPoints:int = int.MAX_VALUE;
+		var bestPattern:MaskPattern;
+		
+		for each (var pattern:MaskPattern in MaskPatterns)
+		{
+			encodeData(pattern, true);
+			
+			var lostPoints:int = getLostPoints();
+			
+			if (lostPoints < bestPatternLostPoints)
+			{
+				bestPatternLostPoints = lostPoints;
+				bestPattern = pattern;
+			}
+		}
+		
+		return bestPattern;
+	}
+	
+	//----------------------------------
+	//  getLostPoints
+	//----------------------------------
+	
+	private function getLostPoints():int
+	{
+		var lostPoints:int = 0;
+		var barCount:int = 0;
+		
+		for (var y:int = 0; y < size; y++)
+		{
+			for (var x:int = 0; x < size; x++)
+			{
+				var bar:Boolean = new Boolean(matrix[x][y]);
+				
+				// level 4
+				
+				if (bar)
+					barCount++;
+				
+				// level 1
+				
+				var sameNeighborCount:int = -5;
+				
+				for (var r:int = -1; r <= 1; r++)
+				{
+					if (y + r < 0 || y + r >= size)
+						continue;
+					
+					for (var c:int = -1; c <= 1; c++)
+					{
+						if (r == 0 && c == 0)
+							continue;
+							
+						if (x + c < 0 || x + c >= size)
+							continue;
+						
+						if (new Boolean(matrix[x+c][y+r]) == bar)
+							sameNeighborCount++;
+					}
+				}
+				
+				if (sameNeighborCount > 0)
+					lostPoints += sameNeighborCount + 3;
+				
+				// level 2
+				
+				if (x < size-1 && y < size-1)
+				{
+					sameNeighborCount = 0;
+					
+					if (new Boolean(matrix[ x ][y+1]) == bar) sameNeighborCount++;
+					if (new Boolean(matrix[x+1][ y ]) == bar) sameNeighborCount++;
+					if (new Boolean(matrix[x+1][y+1]) == bar) sameNeighborCount++;
+					
+					if (sameNeighborCount == 3)
+						lostPoints += 3;
+				}
+				
+				// level 3
+				
+				if (x < size-6)
+				{
+					if (
+						 matrix[ x ][y] &&
+						!matrix[x+1][y] &&
+						 matrix[x+2][y] &&
+						 matrix[x+3][y] &&
+						 matrix[x+4][y] &&
+						!matrix[x+5][y] &&
+						 matrix[x+6][y]
+					)
+						lostPoints += 40;
+				}
+				
+				if (y < size-6)
+				{
+					if (
+						 matrix[x][ y ] &&
+						!matrix[x][y+1] &&
+						 matrix[x][y+2] &&
+						 matrix[x][y+3] &&
+						 matrix[x][y+4] &&
+						!matrix[x][y+5] &&
+						 matrix[x][y+6]
+					)
+						lostPoints += 40;
+				}
+			}
+		}
+		
+		var ratio:int = Math.abs(100 * barCount / (size * size) - 50) / 5;
+		
+		return lostPoints + ratio * 10;
 	}
 	
 	//----------------------------------

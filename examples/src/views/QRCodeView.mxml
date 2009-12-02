@@ -3,7 +3,6 @@
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:fb="http://code.google.com/p/flexbars"
 	width="580" height="380" label="QRCode"
-	backgroundColor="white"
 	defaultButton="{submitButton}"
 >
 	<mx:Script>
@@ -37,6 +36,6 @@
 	</mx:FormItem>
 	
 	<mx:FormItem>
-		<fb:QRCode id="barcode" scaleX="2" scaleY="2" code="QRCODE" />
+		<fb:QRCode id="barcode" scaleX="2" scaleY="2"/>
 	</mx:FormItem>
 </mx:Form>

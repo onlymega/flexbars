@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application
 	xmlns:mx="http://www.adobe.com/2006/mxml"
-	xmlns:views="views.*" backgroundColor="white"
-	width="640" height="480" layout="absolute">
-	
+	xmlns:views="views.*"
+	width="640" height="480" layout="absolute"
+>
 	<mx:Label
 		x="30" y="10" text="Barcode Demonstration"
 		width="580" height="42" fontFamily="Arial" fontSize="40"
 	/>
 	
-	<mx:TabNavigator borderThickness="1" x="30" y="60" width="580" height="400">
+	<mx:TabNavigator borderThickness="1" x="30" y="60" width="580" height="400" backgroundColor="#B6CDF3">
 		<views:EAN13View/>
 		<views:EAN8View/>
 		<views:UPCAView/>

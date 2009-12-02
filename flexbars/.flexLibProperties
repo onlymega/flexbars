@@ -2,7 +2,7 @@
 <flexLibProperties version="1">
 <includeClasses/>
 <includeResources>
-<resourceEntry destPath="design.xml" sourcePath="design.xml"/>
+<resourceEntry destPath="defaults.css" sourcePath="defaults.css"/>
 </includeResources>
 <namespaceManifests>
 <namespaceManifestEntry manifest="manifest.xml" namespace="http://code.google.com/p/flexbars"/>

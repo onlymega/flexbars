@@ -3,7 +3,6 @@
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:fb="http://code.google.com/p/flexbars"
 	width="580" height="380" label="Code39"
-	backgroundColor="white"
 	defaultButton="{submitButton}"
 >
 	<mx:Script>
@@ -23,7 +22,7 @@
 	<mx:FormHeading label="Code 3 of 9"/>
 	
 	<mx:FormItem label="Code">
-		<mx:TextInput id="code" maxChars="15" restrict="A-Z0-9\-. $/+%"/>
+		<mx:TextInput id="code" maxChars="14" restrict="A-Z0-9\-. $/+%"/>
 	</mx:FormItem>
 	
 	<mx:FormItem label="Description">
@@ -31,7 +30,7 @@
 	</mx:FormItem>
 	
 	<mx:FormItem label="Input">
-		<mx:Text text="Up to 15 characters.{'\n'}Allowed charcaters : 0-9 A-Z - . $ \ / + % and the space character."/>
+		<mx:Text text="Up to 14 characters.{'\n'}Allowed charcaters : 0-9 A-Z - . $ \ / + % and the space character."/>
 	</mx:FormItem>
 	
 	<mx:FormItem>

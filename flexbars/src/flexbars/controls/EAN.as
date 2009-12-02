@@ -14,6 +14,8 @@ import flexbars.utils.BarcodeUtil;
 //  Styles
 //--------------------------------------
 
+[Style(name="guardHeight", type="uint", format="Length", inherit="yes")]
+
 //--------------------------------------
 //  Excluded APIs
 //--------------------------------------
@@ -22,7 +24,7 @@ import flexbars.utils.BarcodeUtil;
 //  Other metadata
 //--------------------------------------
 
-internal class EAN extends LinearBarcode
+public class EAN extends LinearBarcode
 {
 	
 	//--------------------------------------------------------------------------
@@ -112,7 +114,7 @@ internal class EAN extends LinearBarcode
 		
 		barsSprite = new Sprite();
 		
-		barsSprite.graphics.beginFill(0x000000);
+		barsSprite.graphics.beginFill( getStyle("barColor") );
 		
 		var x:int = 0;
 		var n:int = bars.length;
@@ -120,7 +122,11 @@ internal class EAN extends LinearBarcode
 		{
 			if ( (i & 1) == 0 )
 			{
-				var height:int = (guardIndices.indexOf(i) == -1) ? 64 : 69;
+				var height:int = getStyle("barHeight");
+				
+				if (guardIndices.indexOf(i) != -1)
+					height += getStyle("guardHeight");
+				
 				barsSprite.graphics.drawRect(x, 0, bars[i], height);
 			}
 			

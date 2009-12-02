@@ -14,6 +14,14 @@ import mx.core.UIComponent;
 //  Styles
 //--------------------------------------
 
+[Style(name="barColor", type="uint", format="Color", inherit="yes")]
+[Style(name="label", type="String", enumeration="yes,no", inherit="yes")]
+[Style(name="quietBottom", type="uint", format="Length", inherit="yes")]
+[Style(name="quietLeft", type="uint", format="Length", inherit="yes")]
+[Style(name="quietRight", type="uint", format="Length", inherit="yes")]
+[Style(name="quietTop", type="uint", format="Length", inherit="yes")]
+[Style(name="spaceColor", type="uint", format="Color", inherit="yes")]
+
 //--------------------------------------
 //  Excluded APIs
 //--------------------------------------
@@ -22,7 +30,7 @@ import mx.core.UIComponent;
 //  Other metadata
 //--------------------------------------
 
-internal class Barcode extends UIComponent
+public class Barcode extends UIComponent
 {
 	
 	//--------------------------------------------------------------------------
@@ -78,6 +86,7 @@ internal class Barcode extends UIComponent
     	_code = value;
     	
     	encode();
+    	invalidateSize();
     	invalidateDisplayList();
     }
 	
@@ -96,12 +105,18 @@ internal class Barcode extends UIComponent
 	{
 		graphics.clear();
 		
-		// background
-		graphics.beginFill(0xFFFFFF);
+		// background & quiet zones
+		graphics.beginFill( getStyle("spaceColor") );
 		graphics.drawRect(0, 0, unscaledWidth, unscaledHeight);
 		graphics.endFill();
 		
     	drawBars();
+    	
+    	if (barsSprite)
+    	{
+	    	barsSprite.x = getStyle("quietLeft");
+	    	barsSprite.y = getStyle("quietTop");
+    	}
 	}
 	
 	//--------------------------------------------------------------------------

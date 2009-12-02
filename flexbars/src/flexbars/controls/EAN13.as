@@ -85,18 +85,6 @@ public class EAN13 extends EAN
 	//--------------------------------------------------------------------------
 	
     //----------------------------------
-    //  drawBars
-    //----------------------------------
-	
-	override protected function drawBars():void
-	{
-		super.drawBars();
-		
-		if (barsSprite)
-			barsSprite.x = 9;
-	}
-	
-    //----------------------------------
     //  encode
     //----------------------------------
 	
@@ -123,18 +111,6 @@ public class EAN13 extends EAN
 		
 		encodeNormalGuard();
 	}
-	
-    //----------------------------------
-    //  measure
-    //----------------------------------
-	
-	override protected function measure():void
-    {
-        measuredMinWidth = 105;
-        measuredMinHeight = 70;
-        measuredWidth = 105;
-        measuredHeight = 70;
-    }
     
 	//--------------------------------------------------------------------------
 	//

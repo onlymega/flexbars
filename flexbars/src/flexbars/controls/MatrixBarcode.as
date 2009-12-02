@@ -15,11 +15,13 @@ import flash.display.Sprite;
 //  Excluded APIs
 //--------------------------------------
 
+// excule [Style(name="label", type="String", enumeration="yes,no", inherit="yes")]
+
 //--------------------------------------
 //  Other metadata
 //--------------------------------------
 
-internal class MatrixBarcode extends Barcode
+public class MatrixBarcode extends Barcode
 {
 	
 	//--------------------------------------------------------------------------
@@ -65,6 +67,27 @@ internal class MatrixBarcode extends Barcode
 	//
 	//--------------------------------------------------------------------------
 	
+    //----------------------------------
+    //  measure
+    //----------------------------------
+	
+	override protected function measure():void
+    {
+    	if (!matrix)
+    		return super.measure();
+    	
+    	var width:int = matrix.length;
+    	var height:int = matrix[0].length;
+    	
+    	width  += getStyle("quietLeft") + getStyle("quietRight");
+    	height += getStyle("quietTop") + getStyle("quietBottom");
+    	
+        measuredMinWidth = width;
+        measuredMinHeight = height;
+        measuredWidth = width;
+        measuredHeight = height;
+    }
+	
 	//--------------------------------------------------------------------------
 	//
 	//  Methods
@@ -77,16 +100,21 @@ internal class MatrixBarcode extends Barcode
 	
 	override protected function drawBars():void
 	{
+		if (!matrix)
+			return;
+		
 		if (barsSprite)
 			removeChild(barsSprite);
 		
 		barsSprite = new Sprite();
 		
-		barsSprite.graphics.beginFill(0x000000);
+		barsSprite.graphics.beginFill( getStyle("barColor") );
 		
-		for (var x:int = 0; x < matrix.length; x++)
+		var m:int = matrix.length;
+		for (var x:int = 0; x < m; x++)
 		{
-			for (var y:int = 0; y < matrix[x].length; y++)
+			var n:int = matrix[x].length;
+			for (var y:int = 0; y < n; y++)
 			{
 				if ( matrix[x][y] )
 					barsSprite.graphics.drawRect(x, y, 1, 1);
