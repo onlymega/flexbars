@@ -13,6 +13,8 @@ import flash.text.TextFieldAutoSize;
 //  Styles
 //--------------------------------------
 
+[Style(name="barHeight", type="uint", format="Length", inherit="yes")]
+
 //--------------------------------------
 //  Excluded APIs
 //--------------------------------------
@@ -23,7 +25,7 @@ import flash.text.TextFieldAutoSize;
 
 [IconFile("LinearBarcode.png")]
 
-internal class LinearBarcode extends Barcode
+public class LinearBarcode extends Barcode
 {
 	
 	//--------------------------------------------------------------------------
@@ -78,6 +80,35 @@ internal class LinearBarcode extends Barcode
 	//
 	//--------------------------------------------------------------------------
 	
+	//----------------------------------
+	//  measure
+	//----------------------------------
+	
+	override protected function measure():void
+	{
+		if (!bars)
+			return super.measure();
+		
+		var width:int = getStyle("quietLeft") + getStyle("quietRight");
+		
+		for each (var bar:int in bars)
+		{
+			width += bar;
+		}
+		
+		var height:int = getStyle("quietTop") + getStyle("quietBottom");
+		
+		height += getStyle("barHeight");
+		
+		if (getStyle("label") == "yes")
+			height += 10; // TODO no hardcoded value
+		
+		measuredMinWidth = width;
+		measuredMinHeight = height;
+		measuredWidth = width;
+		measuredHeight = height;
+	}
+	
 	//--------------------------------------------------------------------------
 	//
 	//  Methods
@@ -98,7 +129,7 @@ internal class LinearBarcode extends Barcode
 		
 		barsSprite = new Sprite();
 		
-		barsSprite.graphics.beginFill(0x000000);
+		barsSprite.graphics.beginFill( getStyle("barColor") );
 		
 		var x:int = 0;
 		var n:int = bars.length;

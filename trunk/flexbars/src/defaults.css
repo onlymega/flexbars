@@ -1,0 +1,123 @@
+global
+{
+	barColor: #000000;
+	spaceColor: #FFFFFF;
+	barHeight: 40;
+	guardHeight: 5;
+	label: yes;
+}
+
+/*
+//------------------------------
+//  Code25
+//------------------------------
+*/
+
+Code25
+{
+	quietBottom: 0;
+	quietLeft: 10;
+	quietRight: 10;
+	quietTop: 0;
+}
+
+/*
+//------------------------------
+//  Code39
+//------------------------------
+*/
+
+Code39
+{
+	quietBottom: 0;
+	quietLeft: 10;
+	quietRight: 10;
+	quietTop: 0;
+}
+
+/*
+//------------------------------
+//  EAN13
+//------------------------------
+*/
+
+EAN13
+{
+	barHeight: 64;
+	quietBottom: 0;
+	quietLeft: 11;
+	quietRight: 9;
+	quietTop: 0;
+}
+
+/*
+//------------------------------
+//  EAN8
+//------------------------------
+*/
+
+EAN8
+{
+	barHeight: 64;
+	quietBottom: 0;
+	quietLeft: 11;
+	quietRight: 9;
+	quietTop: 0;
+}
+
+/*
+//------------------------------
+//  ExtendedCode39
+//------------------------------
+*/
+
+ExtendedCode39
+{
+	quietBottom: 0;
+	quietLeft: 10;
+	quietRight: 10;
+	quietTop: 0;
+}
+
+/*
+//------------------------------
+//  ITF25
+//------------------------------
+*/
+
+ITF25
+{
+	quietBottom: 0;
+	quietLeft: 10;
+	quietRight: 10;
+	quietTop: 0;
+}
+
+/*
+//------------------------------
+//  QRCode
+//------------------------------
+*/
+
+QRCode
+{
+	quietBottom: 2;
+	quietLeft: 2;
+	quietRight: 2;
+	quietTop: 2;
+}
+
+/*
+//------------------------------
+//  UPC-A
+//------------------------------
+*/
+
+UPC-A
+{
+	barHeight: 64;
+	quietBottom: 0;
+	quietLeft: 11;
+	quietRight: 9;
+	quietTop: 0;
+}

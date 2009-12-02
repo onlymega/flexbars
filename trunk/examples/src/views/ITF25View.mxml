@@ -3,7 +3,6 @@
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:fb="http://code.google.com/p/flexbars"
 	width="580" height="380" label="ITF25"
-	backgroundColor="white"
 	defaultButton="{submitButton}"
 >
 	<mx:Script>
@@ -24,7 +23,7 @@
 	<mx:FormHeading label="Interleaved 2 of 5"/>
 	
 	<mx:FormItem label="Code">
-		<mx:TextInput id="code" maxChars="30" width="260" restrict="0-9"/>
+		<mx:TextInput id="code" maxChars="28" width="260" restrict="0-9"/>
 	</mx:FormItem>
 	
 	<mx:FormItem label="Description">
@@ -32,7 +31,7 @@
 	</mx:FormItem>
 	
 	<mx:FormItem label="Input">
-		<mx:Text text="Up to 30 digits.{'\n'}The number of digits must be even."/>
+		<mx:Text text="Up to 28 digits.{'\n'}The number of digits must be even."/>
 	</mx:FormItem>
 	
 	<mx:FormItem>

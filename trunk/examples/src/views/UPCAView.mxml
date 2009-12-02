@@ -3,7 +3,6 @@
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	xmlns:fb="http://code.google.com/p/flexbars"
 	width="580" height="380" label="UPC-A"
-	backgroundColor="white"
 	defaultButton="{submitButton}"
 >
 	<mx:Script>
