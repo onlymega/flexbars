@@ -1,0 +1,1 @@
+Flex barcode components
